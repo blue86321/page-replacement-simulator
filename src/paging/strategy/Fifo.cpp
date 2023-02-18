@@ -17,4 +17,7 @@ void Fifo::PostNewPage(paging::PageTable &page_table, uint32_t page_number) {
 void Fifo::PostReplace(PageTable &page_table, uint32_t page_number) {
   queue.push(page_number);
 }
+std::string Fifo::GetName() {
+  return name_;
+}
 } // paging

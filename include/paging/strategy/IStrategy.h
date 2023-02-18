@@ -17,6 +17,7 @@ class IStrategy {
   virtual void PostNewPage(paging::PageTable &page_table, uint32_t page_number) = 0;
   virtual void PostReference(paging::PageTable &page_table, uint32_t page_number) = 0;
   virtual void PostReplace(paging::PageTable &page_table, uint32_t page_number) = 0;
+  virtual std::string GetName() = 0;
 };
 
 } // paging
