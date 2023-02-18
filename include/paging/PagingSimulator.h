@@ -29,6 +29,9 @@ class PagingSimulator {
  private:
   // generate input file
   void GenerateInputIfNotExist();
+  void AccessMemory(uint32_t page_number);
+  void Replace(uint32_t from_page_number, uint32_t to_page_number);
+  void SetupNewPage(uint32_t page_number, uint32_t frame_no);
  private:
   // physical frames, each frame stores the page number
   paging::PhysicalMemory frame_{};
@@ -37,9 +40,6 @@ class PagingSimulator {
   std::unordered_map<std::string, std::vector<Indicator>> stats;
   uint32_t cur_page_fault_{0};
   std::unique_ptr<paging::IStrategy> strategy_;
-  void AccessMemory(uint32_t page_number);
-  void Replace(uint32_t from_page_number, uint32_t to_page_number);
-  void SetupNewPage(uint32_t page_number, uint32_t frame_no);
 };
 
 }
