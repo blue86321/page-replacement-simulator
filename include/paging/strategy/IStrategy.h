@@ -10,9 +10,9 @@
 
 namespace paging {
 
-class Strategy {
+class IStrategy {
  public:
-  virtual ~Strategy() = default;
+  virtual ~IStrategy() = default;
   virtual uint32_t GetReplacePage(paging::PageTable &page_table) = 0;
   virtual void PostNewPage(paging::PageTable &page_table, uint32_t page_number) = 0;
   virtual void PostReference(paging::PageTable &page_table, uint32_t page_number) = 0;

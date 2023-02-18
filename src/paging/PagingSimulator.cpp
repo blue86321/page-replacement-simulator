@@ -9,7 +9,7 @@
 #include <sys/stat.h>
 #include <string>
 
-void paging::PagingSimulator::SetStrategy(std::unique_ptr<paging::Strategy> &&strategy) {
+void paging::PagingSimulator::SetStrategy(std::unique_ptr<paging::IStrategy> &&strategy) {
   strategy_ = std::move(strategy);
 }
 

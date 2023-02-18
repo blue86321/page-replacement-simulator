@@ -7,11 +7,11 @@
 #include <queue>
 #include <iostream>
 
-#include "paging/Strategy.h"
+#include "IStrategy.h"
 
 namespace paging::strategy {
 
-class Fifo : public paging::Strategy {
+class Fifo : public paging::IStrategy {
  public:
   uint32_t GetReplacePage(paging::PageTable &page_table) override;
   void PostNewPage(paging::PageTable &page_table, uint32_t page_number) override;
