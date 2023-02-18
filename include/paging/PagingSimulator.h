@@ -16,10 +16,16 @@
 
 namespace paging {
 
+struct Indicator {
+  uint32_t line;
+  uint32_t page_fault;
+};
+
 class PagingSimulator {
  public:
   void SetStrategy(std::unique_ptr<paging::IStrategy> &&strategy);
   void Run();
+  void ShowStats();
  private:
   // generate input file
   void GenerateInputIfNotExist();
@@ -27,7 +33,9 @@ class PagingSimulator {
   // physical frames, each frame stores the page number
   paging::PhysicalMemory frame_{};
   paging::PageTable page_table_{};
-  int page_fault_{0};
+  // stats: strategy_name -> indicators
+  std::unordered_map<std::string, std::vector<Indicator>> stats;
+  uint32_t cur_page_fault_{0};
   std::unique_ptr<paging::IStrategy> strategy_;
   void AccessMemory(uint32_t page_number);
   void Replace(uint32_t from_page_number, uint32_t to_page_number);

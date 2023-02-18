@@ -7,5 +7,6 @@ int main() {
   paging::PagingSimulator paging_simulator;
   paging_simulator.SetStrategy(std::make_unique<paging::strategy::Fifo>());
   paging_simulator.Run();
+  paging_simulator.ShowStats();
   return 0;
 }
