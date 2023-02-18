@@ -13,10 +13,15 @@ namespace paging {
 class IStrategy {
  public:
   virtual ~IStrategy() = default;
+  // get `page number` to be replaced
   virtual uint32_t GetReplacePage(paging::PageTable &page_table) = 0;
-  virtual void PostNewPage(paging::PageTable &page_table, uint32_t page_number) = 0;
-  virtual void PostReference(paging::PageTable &page_table, uint32_t page_number) = 0;
-  virtual void PostReplace(paging::PageTable &page_table, uint32_t page_number) = 0;
+  // after inserting a new page to an empty frame
+  virtual void AfterNewPage(paging::PageTable &page_table, uint32_t page_number) = 0;
+  // after referencing a page
+  virtual void AfterReference(paging::PageTable &page_table, uint32_t page_number) = 0;
+  // after replacing a page
+  virtual void AfterReplace(paging::PageTable &page_table, uint32_t new_page_number) = 0;
+  // strategy name
   virtual std::string GetName() = 0;
 };
 

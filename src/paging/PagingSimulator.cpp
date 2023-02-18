@@ -59,7 +59,7 @@ void paging::PagingSimulator::Run() {
 void paging::PagingSimulator::AccessMemory(uint32_t page_number) {
   if (page_table_.IsValid(page_number)) {
     page_table_.Reference(page_number);
-    strategy_->PostReference(page_table_, page_number);
+    strategy_->AfterReference(page_table_, page_number);
   } else {
     // page fault
     cur_page_fault_++;
@@ -67,11 +67,11 @@ void paging::PagingSimulator::AccessMemory(uint32_t page_number) {
       // page replacement
       uint32_t replaced_page = strategy_->GetReplacePage(page_table_);
       Replace(replaced_page, page_number);
-      strategy_->PostReplace(page_table_, page_number);
+      strategy_->AfterReplace(page_table_, page_number);
     } else {
       uint32_t frame_no = frame_.UseOneFrame();
       SetupNewPage(page_number, frame_no);
-      strategy_->PostNewPage(page_table_, page_number);
+      strategy_->AfterNewPage(page_table_, page_number);
     }
   }
 }
