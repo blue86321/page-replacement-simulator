@@ -22,8 +22,8 @@ bool PageTable::IsValid(uint32_t page_number) {
   return page_table_[page_number].valid;
 }
 void PageTable::Reset() {
-  for (auto entry : page_table_) {
-    entry.valid = false;
+  for (int i = 0; i < page_table_.size(); i ++) {
+    page_table_[i].valid = false;
   }
 }
 bool PageTable::IsReferenced(uint32_t page_number) {
