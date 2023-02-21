@@ -37,6 +37,7 @@ void paging::PagingSimulator::Run() {
   // init
   cur_page_fault_ = 0;
   frame_.Reset();
+  page_table_.Reset();
 
   // read each line to reference a page
   std::ifstream input;

@@ -21,4 +21,9 @@ uint32_t PageTable::GetFrameNumber(uint32_t page_number) {
 bool PageTable::IsValid(uint32_t page_number) {
   return page_table_[page_number].valid;
 }
+void PageTable::Reset() {
+  for (auto entry : page_table_) {
+    entry.valid = false;
+  }
+}
 } // paging

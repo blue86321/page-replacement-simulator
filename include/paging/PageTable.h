@@ -24,6 +24,7 @@ class PageTable {
   void Set(uint32_t page_number, PageEntry page_entry);
   void Invalidate(uint32_t page_number);
   void Reference(uint32_t page_number);
+  void Reset();
  private:
   std::array<PageEntry, PAGE_TABLE_SIZE> page_table_{};
 };
