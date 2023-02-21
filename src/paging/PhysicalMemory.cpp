@@ -18,4 +18,8 @@ uint32_t PhysicalMemory::UseOneFrame() {
   }
   return -1;
 }
+void PhysicalMemory::Reset() {
+  frames_.fill(false);
+  empty_frame = FRAME_SIZE;
+}
 } // paging

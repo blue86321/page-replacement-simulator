@@ -11,6 +11,7 @@ namespace paging {
 class PhysicalMemory {
  public:
   bool IsFull();
+  void Reset();
   uint32_t UseOneFrame();
  private:
   std::array<bool, FRAME_SIZE> frames_{};
