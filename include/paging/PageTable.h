@@ -20,6 +20,9 @@ struct PageEntry {
 class PageTable {
  public:
   bool IsValid(uint32_t page_number);
+  bool IsReferenced(uint32_t page_number);
+  bool IsModified(uint32_t page_number);
+  void SetReference(uint32_t page_number, bool is_reference);
   uint32_t GetFrameNumber(uint32_t page_number);
   void Set(uint32_t page_number, PageEntry page_entry);
   void Invalidate(uint32_t page_number);

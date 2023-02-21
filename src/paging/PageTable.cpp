@@ -26,4 +26,13 @@ void PageTable::Reset() {
     entry.valid = false;
   }
 }
+bool PageTable::IsReferenced(uint32_t page_number) {
+  return page_table_[page_number].reference;
+}
+bool PageTable::IsModified(uint32_t page_number) {
+  return page_table_[page_number].modified;
+}
+void PageTable::SetReference(uint32_t page_number, bool is_reference) {
+  page_table_[page_number].reference = is_reference;
+}
 } // paging
