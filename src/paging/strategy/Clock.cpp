@@ -11,7 +11,7 @@ uint32_t Clock::GetReplacePage(paging::PageTable &page_table) {
       return head_idx_;
     }
     page_table.SetReference(head_idx_, false);
-    head_idx_ = (head_idx_ + 1) % PAGE_TABLE_SIZE;
+    head_idx_ = (head_idx_ + 1) % page_table.Size();
   }
 }
 std::string Clock::GetName() {

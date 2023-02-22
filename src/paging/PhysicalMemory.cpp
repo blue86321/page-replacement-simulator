@@ -9,7 +9,7 @@ bool PhysicalMemory::IsFull() {
   return empty_frame == 0;
 }
 uint32_t PhysicalMemory::UseOneFrame() {
-  for (size_t i = 0; i < FRAME_SIZE; i++) {
+  for (size_t i = 0; i < size_; i++) {
     if (!frames_[i]) {
       frames_[i] = true;
       empty_frame--;
@@ -19,7 +19,13 @@ uint32_t PhysicalMemory::UseOneFrame() {
   return -1;
 }
 void PhysicalMemory::Reset() {
-  frames_.fill(false);
-  empty_frame = FRAME_SIZE;
+  std::fill(frames_.begin(), frames_.end(), false);
+  empty_frame = size_;
+}
+
+void PhysicalMemory::SetFrameSize(uint32_t size) {
+  std::vector(size, false).swap(frames_);
+  empty_frame = size;
+  size_ = size;
 }
 } // paging

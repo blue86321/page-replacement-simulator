@@ -10,7 +10,7 @@ uint32_t Nru::GetReplacePage(PageTable &page_table) {
   int64_t not_reference_modified = -1;
   int64_t reference_not_modified = -1;
   int64_t reference_modified = -1;
-  while (page_table.IsValid(idx) && idx < PAGE_TABLE_SIZE) {
+  while (page_table.IsValid(idx) && idx < page_table.Size()) {
     if (!page_table.IsReferenced(idx) && !page_table.IsModified(idx)) {
       // not referenced, not modified
       return idx;

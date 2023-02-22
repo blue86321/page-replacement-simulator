@@ -22,8 +22,8 @@ bool PageTable::IsValid(uint32_t page_number) {
   return page_table_[page_number].valid;
 }
 void PageTable::Reset() {
-  for (int i = 0; i < page_table_.size(); i ++) {
-    page_table_[i].valid = false;
+  for (auto & page_entry : page_table_) {
+    page_entry.valid = false;
   }
 }
 bool PageTable::IsReferenced(uint32_t page_number) {
@@ -34,5 +34,10 @@ bool PageTable::IsModified(uint32_t page_number) {
 }
 void PageTable::SetReference(uint32_t page_number, bool is_reference) {
   page_table_[page_number].reference = is_reference;
+}
+void PageTable::SetPageTableSize(uint32_t size) {
+  page_table_.resize(size);
+  Reset();
+  size_ = size;
 }
 } // paging

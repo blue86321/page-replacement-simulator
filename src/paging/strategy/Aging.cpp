@@ -28,7 +28,7 @@ std::string strategy::Aging::GetName() {
 void strategy::CustomPq::updateAge(uint32_t key) {
   for (auto page_page : this->c) {
     if (page_page.page_number == key) {
-      page_page.age = (page_page.age >> 1) | (1 << 32);
+      page_page.age = (page_page.age >> 1) | (1 << 31);
     } else {
       page_page.age = (page_page.age >> 1);
     }

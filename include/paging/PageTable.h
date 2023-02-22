@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include <array>
+#include <vector>
 
 #include "paging/Common.h"
 
@@ -15,9 +15,15 @@ struct PageEntry {
   bool valid;
   bool protect;
   uint32_t frame_no;
+  PageEntry() : reference(false), modified(false), valid(false), protect(false), frame_no(0) {};
+  // construct with `frame_no` means `reference` and `valid`
+  explicit PageEntry(uint32_t t_frame_no)
+      : reference(true), modified(false), valid(true), protect(false), frame_no(t_frame_no) {};
 };
 
 class PageTable {
+ public:
+  explicit PageTable(uint32_t size) : size_(size), page_table_(size) {};
  public:
   bool IsValid(uint32_t page_number);
   bool IsReferenced(uint32_t page_number);
@@ -28,8 +34,11 @@ class PageTable {
   void Invalidate(uint32_t page_number);
   void Reference(uint32_t page_number);
   void Reset();
+  void SetPageTableSize(uint32_t size);
+  uint32_t Size() {return size_; };
  private:
-  std::array<PageEntry, PAGE_TABLE_SIZE> page_table_{};
+  std::vector<PageEntry> page_table_;
+  uint32_t size_;
 };
 
 } // paging

@@ -8,7 +8,8 @@
 #include "paging/strategy/Nru.h"
 
 int main() {
-  paging::PagingSimulator paging_simulator;
+  paging::PagingSimulator paging_simulator(1024, 128);
+  paging_simulator.SetInput(INPUT_FILE);
   paging_simulator.SetStrategy(std::make_unique<paging::strategy::Fifo>());
   paging_simulator.Run();
   paging_simulator.SetStrategy(std::make_unique<paging::strategy::Lru>());
@@ -18,6 +19,9 @@ int main() {
   paging_simulator.SetStrategy(std::make_unique<paging::strategy::Clock>());
   paging_simulator.Run();
   paging_simulator.SetStrategy(std::make_unique<paging::strategy::Nru>());
+  paging_simulator.Run();
+  paging_simulator.SetFrameSize(8);
+  paging_simulator.SetPageTableSize(64);
   paging_simulator.Run();
   paging_simulator.ShowStats();
   return 0;
