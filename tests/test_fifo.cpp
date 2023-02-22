@@ -8,23 +8,14 @@
 #include "paging/strategy/Nru.h"
 
 
+#define TEST_INPUT_FILE "tests/test_page_reference.txt"
+
 int main() {
   paging::PagingSimulator paging_simulator(8, 4);
   paging_simulator.SetInput(TEST_INPUT_FILE);
   paging_simulator.SetOutputLineFrequency(20);
   paging_simulator.SetStrategy(std::make_unique<paging::strategy::Fifo>());
   paging_simulator.Run();
-  paging_simulator.SetStrategy(std::make_unique<paging::strategy::Lru>());
-  paging_simulator.Run();
-  paging_simulator.SetStrategy(std::make_unique<paging::strategy::Aging>());
-  paging_simulator.Run();
-  paging_simulator.SetStrategy(std::make_unique<paging::strategy::Clock>());
-  paging_simulator.Run();
-  paging_simulator.SetStrategy(std::make_unique<paging::strategy::Nru>());
-  paging_simulator.Run();
-//  paging_simulator.SetFrameSize(8);
-//  paging_simulator.SetPageTableSize(64);
-//  paging_simulator.Run();
   paging_simulator.ShowStats();
   return 0;
 }
