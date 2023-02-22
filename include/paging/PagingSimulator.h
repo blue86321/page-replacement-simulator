@@ -9,10 +9,10 @@
 #include <unordered_map>
 #include <array>
 #include <map>
-#include "paging/strategy/IStrategy.h"
-#include "paging/PageTable.h"
-#include "paging/Common.h"
-#include "paging/PhysicalMemory.h"
+#include "strategy/IStrategy.h"
+#include "PageTable.h"
+#include "Common.h"
+#include "PhysicalMemory.h"
 
 namespace paging {
 
