@@ -10,9 +10,16 @@ make
 ```
 
 ## Run
-
+- in `build` directory
 ```shell
-./page-replacement-simulator
+cd example
+./example
+```
+
+## Test
+- in `build` directory
+```shell
+ctest
 ```
 
 ## Note
