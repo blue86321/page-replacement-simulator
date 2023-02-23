@@ -20,7 +20,7 @@ class IStrategy {
   // after referencing a page
   virtual void AfterReference(paging::PageTable &page_table, uint32_t page_number) = 0;
   // after replacing a page
-  virtual void AfterReplace(paging::PageTable &page_table, uint32_t new_page_number) = 0;
+  virtual void AfterReplace(paging::PageTable &page_table, uint32_t old_page_number, uint32_t new_page_number) = 0;
   // strategy name
   virtual std::string GetName() = 0;
 };

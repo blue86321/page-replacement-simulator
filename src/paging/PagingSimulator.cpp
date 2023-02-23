@@ -74,7 +74,7 @@ void PagingSimulator::AccessMemory(uint32_t page_number) {
       // page replacement
       uint32_t replaced_page = strategy_->GetReplacePage(page_table_);
       Replace(replaced_page, page_number);
-      strategy_->AfterReplace(page_table_, page_number);
+      strategy_->AfterReplace(page_table_, replaced_page, page_number);
     } else {
       uint32_t frame_no = frame_.UseOneFrame();
       SetupNewPage(page_number, frame_no);

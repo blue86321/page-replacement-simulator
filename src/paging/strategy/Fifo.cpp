@@ -6,15 +6,14 @@
 
 namespace paging::strategy {
 uint32_t Fifo::GetReplacePage(paging::PageTable &page_table) {
-  auto page_number = queue.front();
-  queue.pop();
-  return page_number;
+  return queue.front();
 }
 
 void Fifo::AfterNewPage(paging::PageTable &page_table, uint32_t page_number) {
   queue.push(page_number);
 }
-void Fifo::AfterReplace(PageTable &page_table, uint32_t new_page_number) {
+void Fifo::AfterReplace(PageTable &page_table, uint32_t old_page_number, uint32_t new_page_number) {
+  queue.pop();
   queue.push(new_page_number);
 }
 std::string Fifo::GetName() {

@@ -44,7 +44,7 @@ class Lru: public paging::IStrategy{
   uint32_t GetReplacePage(PageTable &page_table) override;
   void AfterNewPage(PageTable &page_table, uint32_t page_number) override;
   void AfterReference(PageTable &page_table, uint32_t page_number) override;
-  void AfterReplace(PageTable &page_table, uint32_t new_page_number) override;
+  void AfterReplace(PageTable &page_table, uint32_t old_page_number, uint32_t new_page_number) override;
   std::string GetName() override;
  private:
   std::string name_ = "LRU";

@@ -7,11 +7,7 @@
 namespace paging::strategy {
 // Lru
 uint32_t Lru::GetReplacePage(PageTable &page_table) {
-  Node* node = dl_list_.GetTail();
-  page_node_map_.erase(node->val);
-  auto page_number = node->val;
-  dl_list_.RemoveTail();
-  return page_number;
+  return dl_list_.GetTail()->val;
 }
 void Lru::AfterNewPage(PageTable &page_table, uint32_t page_number) {
   Node* node = new Node(page_number);
@@ -24,7 +20,9 @@ void Lru::AfterReference(PageTable &page_table, uint32_t page_number) {
     dl_list_.MoveToHead(node);
   }
 }
-void Lru::AfterReplace(PageTable &page_table, uint32_t new_page_number) {
+void Lru::AfterReplace(PageTable &page_table, uint32_t old_page_number, uint32_t new_page_number) {
+  page_node_map_.erase(dl_list_.GetTail()->val);
+  dl_list_.RemoveTail();
   AfterNewPage(page_table, new_page_number);
 }
 std::string Lru::GetName() {
