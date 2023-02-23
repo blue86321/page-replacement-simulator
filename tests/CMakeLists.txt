@@ -1,16 +1,23 @@
-
-
+file(COPY ../input DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 file(GLOB test_files "test_*.cpp")
 foreach(file ${test_files})
     string(REGEX REPLACE "(^.*/|\\.[^.]*$)" "" file_without_ext ${file})
     add_executable(${file_without_ext} ${file})
+    include_directories(../input)
     target_link_libraries(${file_without_ext} simulator_src)
     target_include_directories(${file_without_ext}
-        PUBLIC
+        PRIVATE
             ../include
     )
     add_test(${file_without_ext} ${file_without_ext})
+
+    set_tests_properties(${file_without_ext}
+        PROPERTIES
+            PASS_REGULAR_EXPRESSION "Test passed")
+    set_tests_properties(${file_without_ext}
+        PROPERTIES
+            FAIL_REGULAR_EXPRESSION "(Exception|Test failed)")
 endforeach()
 
 
