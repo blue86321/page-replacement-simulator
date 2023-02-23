@@ -16,7 +16,7 @@ class Fifo : public paging::IStrategy {
   uint32_t GetReplacePage(paging::PageTable &page_table) override;
   void AfterNewPage(paging::PageTable &page_table, uint32_t page_number) override;
   void AfterReference(paging::PageTable &page_table, uint32_t page_number) override {};
-  void AfterReplace(paging::PageTable &page_table, uint32_t page_number) override;
+  void AfterReplace(paging::PageTable &page_table, uint32_t new_page_number) override;
   std::string GetName() override;
  private:
   std::string name_ = "FIFO";

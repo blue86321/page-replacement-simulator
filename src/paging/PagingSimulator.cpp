@@ -9,12 +9,13 @@
 #include <sys/stat.h>
 #include <string>
 
-void paging::PagingSimulator::SetStrategy(std::unique_ptr<paging::IStrategy> &&strategy) {
+namespace paging {
+void PagingSimulator::SetStrategy(std::unique_ptr<IStrategy> &&strategy) {
   // because `strategy` is a rvalue, we can "steal" memory from it
   strategy_ = std::move(strategy);
 }
 
-void paging::PagingSimulator::GenerateInputIfNotExist() {
+void PagingSimulator::GenerateInputIfNotExist() {
 //  std::string file_name = std::string(INPUT_PAGE_REF_NAME) + "_" + std::to_string(MAX_PAGE) + ".txt";
   std::string file_name = input_file_;
   struct stat buffer{};
@@ -32,7 +33,7 @@ void paging::PagingSimulator::GenerateInputIfNotExist() {
   }
 }
 
-void paging::PagingSimulator::Run() {
+void PagingSimulator::Run() {
   GenerateInputIfNotExist();
 
   Reset();
@@ -49,14 +50,20 @@ void paging::PagingSimulator::Run() {
       // stats
       line_counter++;
       if (line_counter % output_line_frequency_ == 0) {
-        stats[strategy_->GetName()].push_back({line_counter, cur_page_fault_});
+        auto now = std::chrono::system_clock::now();
+        stats.emplace_back(page_table_.Size(),
+                           frame_.Size(),
+                           strategy_->GetName(),
+                           line_counter,
+                           cur_page_fault_,
+                           now - start_time);
       }
     }
     input.close();
   }
 }
 
-void paging::PagingSimulator::AccessMemory(uint32_t page_number) {
+void PagingSimulator::AccessMemory(uint32_t page_number) {
   if (page_table_.IsValid(page_number)) {
     page_table_.Reference(page_number);
     strategy_->AfterReference(page_table_, page_number);
@@ -76,41 +83,60 @@ void paging::PagingSimulator::AccessMemory(uint32_t page_number) {
   }
 }
 
-void paging::PagingSimulator::Replace(uint32_t from_page_number, uint32_t to_page_number) {
+void PagingSimulator::Replace(uint32_t from_page_number, uint32_t to_page_number) {
   uint32_t frame_no = page_table_.GetFrameNumber(from_page_number);
   page_table_.Invalidate(from_page_number);
   PageEntry page_entry(frame_no);
   page_table_.Set(to_page_number, page_entry);
 }
 
-void paging::PagingSimulator::SetupNewPage(uint32_t page_number, uint32_t frame_no) {
+void PagingSimulator::SetupNewPage(uint32_t page_number, uint32_t frame_no) {
   PageEntry page_entry(frame_no);
   page_table_.Set(page_number, page_entry);
 }
-void paging::PagingSimulator::ShowStats() {
-  for (auto [strategy_name, line_stat] : stats) {
-    for (Indicator indicator : line_stat) {
-      std::cout << "Strategy: " << strategy_name
-        << ", Line: " << indicator.line
-        << ", Page fault: " << indicator.page_fault
-        << "\n";
-    }
+
+bool IndicatorComparator(const Indicator &a, const Indicator &b) {
+  if (a.frame_size != b.frame_size) return a.frame_size < b.frame_size;
+  if (a.page_size != b.page_size) return a.page_size < b.page_size;
+  if (a.strategy_name != b.strategy_name) return a.strategy_name < b.strategy_name;
+  if (a.line != b.line) return a.line < b.line;
+  return false;
+}
+
+void PagingSimulator::ShowStats() {
+  std::sort(stats.begin(), stats.end(), IndicatorComparator);
+  for (const auto &indicator : stats) {
+    std::cout
+      << "Frame: " << indicator.frame_size
+      << ", Page: " << indicator.page_size
+      << ", Strategy: " << indicator.strategy_name
+      << ", Line: " << indicator.line
+      << ", Page fault: " << indicator.page_fault
+      << "\n";
   }
 }
-void paging::PagingSimulator::Reset() {
+void PagingSimulator::Reset() {
   cur_page_fault_ = 0;
   frame_.Reset();
   page_table_.Reset();
+  start_time = std::chrono::system_clock::now();
 }
-void paging::PagingSimulator::SetFrameSize(uint32_t size) {
+void PagingSimulator::SetFrameSize(uint32_t size) {
   frame_.SetFrameSize(size);
 }
-void paging::PagingSimulator::SetPageTableSize(uint32_t size) {
+void PagingSimulator::SetPageTableSize(uint32_t size) {
   page_table_.SetPageTableSize(size);
 }
-void paging::PagingSimulator::SetInput(std::string &&file_name) {
+void PagingSimulator::SetInput(std::string &&file_name) {
   input_file_ = std::move(file_name);
 }
-void paging::PagingSimulator::SetOutputLineFrequency(uint32_t &&freq) {
-  output_line_frequency_ = std::move(freq);
+void PagingSimulator::SetOutputLineFrequency(uint32_t freq) {
+  output_line_frequency_ = freq;
 }
+std::vector<Indicator> PagingSimulator::GetStats() {
+  std::sort(stats.begin(), stats.end(), IndicatorComparator);
+  return stats;
+}
+
+}
+

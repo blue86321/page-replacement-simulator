@@ -15,6 +15,7 @@ class PhysicalMemory {
   void Reset();
   uint32_t UseOneFrame();
   void SetFrameSize(uint32_t size);
+  uint32_t Size() { return size_; };
  private:
   std::vector<bool> frames_;
   uint32_t empty_frame;

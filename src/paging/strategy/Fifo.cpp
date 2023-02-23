@@ -14,8 +14,8 @@ uint32_t Fifo::GetReplacePage(paging::PageTable &page_table) {
 void Fifo::AfterNewPage(paging::PageTable &page_table, uint32_t page_number) {
   queue.push(page_number);
 }
-void Fifo::AfterReplace(PageTable &page_table, uint32_t page_number) {
-  queue.push(page_number);
+void Fifo::AfterReplace(PageTable &page_table, uint32_t new_page_number) {
+  queue.push(new_page_number);
 }
 std::string Fifo::GetName() {
   return name_;
