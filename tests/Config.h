@@ -8,7 +8,7 @@
 
 #define PAGE_SIZE 8
 #define FRAME_SIZE 4
-#define OUTPUT_LINE_FREQUENCY 20
+#define TEST_OUTPUT_LINE_FREQUENCY 20
 #define TEST_INPUT_FILE "input/test_page_reference.txt"
 
 namespace testing {
