@@ -4,34 +4,35 @@
 
 #include "paging/strategy/Aging.h"
 
-namespace paging {
-uint32_t strategy::Aging::GetReplacePage(PageTable &page_table) {
+namespace paging::strategy {
+uint32_t Aging::GetReplacePage(PageTable &page_table) {
   auto& page_age = priority_queue_.top();
   uint32_t page_number = page_age.page_number;
   priority_queue_.pop();
   return page_number;
 }
-void strategy::Aging::AfterNewPage(PageTable &page_table, uint32_t page_number) {
-  auto* pa = new PageAge(page_number, 1);
-  priority_queue_.push(*pa);
+void Aging::AfterNewPage(PageTable &page_table, uint32_t page_number) {
+  priority_queue_.emplace(page_number, 0);
+  priority_queue_.UpdateAge(page_number);
 }
-void strategy::Aging::AfterReference(PageTable &page_table, uint32_t page_number) {
-  priority_queue_.updateAge(page_number);
+void Aging::AfterReference(PageTable &page_table, uint32_t page_number) {
+  priority_queue_.UpdateAge(page_number);
 }
-void strategy::Aging::AfterReplace(PageTable &page_table, uint32_t new_page_number) {
+void Aging::AfterReplace(PageTable &page_table, uint32_t new_page_number) {
   AfterNewPage(page_table, new_page_number);
 }
-std::string strategy::Aging::GetName() {
+std::string Aging::GetName() {
   return name_;
 }
 
-void strategy::CustomPq::updateAge(uint32_t key) {
-  for (auto page_page : this->c) {
+void CustomPq::UpdateAge(uint32_t key) {
+  for (auto& page_page : this->c) {
     if (page_page.page_number == key) {
       page_page.age = (page_page.age >> 1) | (1 << 31);
     } else {
       page_page.age = (page_page.age >> 1);
     }
   }
+  std::make_heap(this->c.begin(), this->c.end(), Comparator());
 }
 } // paging

@@ -20,13 +20,13 @@ struct PageAge {
 class Comparator {
  public:
   bool operator()(PageAge a, PageAge b) {
-    return a.age < b.age;
+    return a.age > b.age;
   }
 };
 
 class CustomPq : public std::priority_queue<PageAge, std::vector<PageAge>, Comparator> {
  public:
-  void updateAge(uint32_t key);
+  void UpdateAge(uint32_t key);
 };
 
 class Aging : public IStrategy {
