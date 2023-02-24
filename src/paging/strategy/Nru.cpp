@@ -33,26 +33,30 @@ uint32_t Nru::GetReplacePage(PageTable &page_table) {
   return *frame_pn.begin();
 }
 void Nru::AfterReference(PageTable &page_table, uint32_t page_number) {
-  for (const auto& pn : frame_pn) {
-    if (pn != page_number) {
-      page_table.SetReference(pn, false);
-    }
-  }
+  CheckPeriod(page_table);
 }
 void Nru::AfterNewPage(PageTable &page_table, uint32_t page_number) {
   frame_pn.push_back(page_number);
-  AfterReference(page_table, page_number);
+  CheckPeriod(page_table);;
 }
 void Nru::AfterReplace(PageTable &page_table, uint32_t old_page_number, uint32_t new_page_number) {
   for (auto& pn : frame_pn) {
     if (pn == old_page_number) {
       pn = new_page_number;
-    } else {
-      page_table.SetReference(pn, false);
+      break;
     }
   }
+  CheckPeriod(page_table);
 }
 std::string Nru::GetName() {
   return name_;
+}
+void Nru::CheckPeriod(PageTable &page_table) {
+  if (cur_period_++ == period_) {
+    cur_period_ = 0;
+    for (const auto& pn : frame_pn) {
+        page_table.SetReference(pn, false);
+    }
+  }
 }
 }

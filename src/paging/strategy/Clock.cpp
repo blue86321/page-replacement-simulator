@@ -17,21 +17,25 @@ uint32_t Clock::GetReplacePage(paging::PageTable &page_table) {
 }
 void Clock::AfterNewPage(PageTable &page_table, uint32_t page_number) {
   frame_clock.push_back(page_number);
-  AfterReference(page_table, page_number);
+  CheckPeriod(page_table);
 }
 void Clock::AfterReference(PageTable &page_table, uint32_t page_number) {
-  for (auto pn : frame_clock) {
-    if (pn != page_number) {
-      page_table.SetReference(pn, false);
-    }
-  }
+  CheckPeriod(page_table);
 }
 void Clock::AfterReplace(PageTable &page_table, uint32_t old_page_number, uint32_t new_page_number) {
   frame_clock[head_idx_] = new_page_number;
   head_idx_ = (head_idx_ + 1) % frame_clock.size();
-  AfterReference(page_table, new_page_number);
+  CheckPeriod(page_table);
 }
 std::string Clock::GetName() {
   return name_;
+}
+void Clock::CheckPeriod(PageTable &page_table) {
+  if (cur_period_++ == period_) {
+    cur_period_ = 0;
+    for (const auto& pn : frame_clock) {
+      page_table.SetReference(pn, false);
+    }
+  }
 }
 } // strategy
