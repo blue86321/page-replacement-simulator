@@ -5,7 +5,7 @@
 #include "paging/strategy/Nru.h"
 
 namespace paging::strategy {
-uint32_t Nru::GetReplacePage(PageTable &page_table) {
+uint32_t Nru::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) {
   int64_t default_idx = INT64_MAX;
   int64_t not_reference_modified = default_idx;
   int64_t reference_not_modified = default_idx;
@@ -32,31 +32,26 @@ uint32_t Nru::GetReplacePage(PageTable &page_table) {
   if (reference_modified != default_idx) return reference_modified;
   return *frame_pn.begin();
 }
-void Nru::AfterReference(PageTable &page_table, uint32_t page_number) {
-  CheckPeriod(page_table);
-}
-void Nru::AfterNewPage(PageTable &page_table, uint32_t page_number) {
+void Nru::AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, uint32_t page_number) {
   frame_pn.push_back(page_number);
-  CheckPeriod(page_table);;
 }
-void Nru::AfterReplace(PageTable &page_table, uint32_t old_page_number, uint32_t new_page_number) {
+void Nru::AfterReplace_(PhysicalMemory &frame,
+                        PageTable &page_table,
+                        uint32_t old_page_number,
+                        uint32_t new_page_number) {
   for (auto& pn : frame_pn) {
     if (pn == old_page_number) {
       pn = new_page_number;
       break;
     }
   }
-  CheckPeriod(page_table);
 }
 std::string Nru::GetName() {
   return name_;
 }
-void Nru::CheckPeriod(PageTable &page_table) {
-  if (cur_period_++ == period_) {
-    cur_period_ = 0;
-    for (const auto& pn : frame_pn) {
-        page_table.SetReference(pn, false);
-    }
+void Nru::PeriodOperation(PhysicalMemory &frame, PageTable &page_table) {
+  for (int i = 0; i < frame.Size(); i ++) {
+    page_table.SetReference(frame.GetPage(i), false);
   }
 }
 }

@@ -10,23 +10,23 @@
 namespace paging::strategy {
 
 
-class Clock: public paging::IStrategy {
+class Clock: public IStrategy {
+ protected:
+  void PeriodOperation(PhysicalMemory &frame, PageTable &page_table) override;
+  void AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, uint32_t page_number) override;
+  void AfterReference_(PhysicalMemory &frame, PageTable &page_table, uint32_t page_number) override {};
+  void AfterReplace_(PhysicalMemory &frame,
+                     PageTable &page_table,
+                     uint32_t old_page_number,
+                     uint32_t new_page_number) override;
  public:
-  explicit Clock(uint32_t period = 5): period_(period) {};
-  uint32_t GetReplacePage(paging::PageTable &page_table) override;
-  void AfterNewPage(paging::PageTable &page_table, uint32_t page_number) override;
-  void AfterReference(paging::PageTable &page_table, uint32_t page_number) override;
-  void AfterReplace(paging::PageTable &page_table, uint32_t old_page_number, uint32_t new_page_number) override;
+  uint32_t GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) override;
   std::string GetName() override;
- private:
-  void CheckPeriod(paging::PageTable &page_table);
  private:
   std::string name_ = "Clock";
   uint32_t head_idx_ = 0;
   // element is page number
   std::vector<uint32_t> frame_clock;
-  uint32_t period_;
-  uint32_t cur_period_ = 0;
 };
 
 }
