@@ -9,7 +9,7 @@
 
 namespace paging::strategy {
 
-class Nru: public IStrategy {
+class Nru : public IStrategy {
  protected:
   void AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_number) override {};
   void AfterReference_(PhysicalMemory &frame, PageTable &page_table, int page_number) override {};
@@ -18,6 +18,7 @@ class Nru: public IStrategy {
                      int old_page_number,
                      int new_page_number) override {};
   void PeriodOperation(PhysicalMemory &frame, PageTable &page_table) override;
+  void Reset_() override {};
  public:
   int GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) override;
   std::string GetName() override;

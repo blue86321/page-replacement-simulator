@@ -29,4 +29,8 @@ void IStrategy::SetPeriod(int period) {
 int IStrategy::GetPeriod() {
   return period_;
 }
+void IStrategy::Reset() {
+  cur_period_ = 0;
+  Reset_();
+}
 }

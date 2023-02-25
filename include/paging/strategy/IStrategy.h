@@ -24,13 +24,14 @@ class IStrategy {
   void AfterReference(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_number);
   // after replacing a page
   void AfterReplace(paging::PhysicalMemory &frame,
-                             paging::PageTable &page_table,
-                             int old_page_number,
-                             int new_page_number);
+                    paging::PageTable &page_table,
+                    int old_page_number,
+                    int new_page_number);
   // strategy name
   virtual std::string GetName() = 0;
   void SetPeriod(int period);
   int GetPeriod();
+  void Reset();
  protected:
   virtual void AfterNewPage_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_number) = 0;
   virtual void AfterReference_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_number) = 0;
@@ -39,11 +40,11 @@ class IStrategy {
                              int old_page_number,
                              int new_page_number) = 0;
   virtual void PeriodOperation(PhysicalMemory &frame, PageTable &page_table) = 0;
+  virtual void Reset_() = 0;
  private:
   void CheckPeriod(PhysicalMemory &frame, PageTable &page_table);
   static inline int period_ = 10;
   int cur_period_ = 0;
 };
-
 
 } // paging

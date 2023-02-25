@@ -40,4 +40,8 @@ void Aging::PeriodOperation(PhysicalMemory &frame, PageTable &page_table) {
   }
   ref_page_this_period.clear();
 }
+void Aging::Reset_() {
+  age_map.clear();
+  ref_page_this_period.clear();
+}
 } // paging

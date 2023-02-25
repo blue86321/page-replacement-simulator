@@ -38,7 +38,7 @@ void PagingSimulator::Run() {
   // read each line to reference a page
   std::ifstream input;
   input.open(GetFileName());
-  int line_counter = 0;
+  size_t line_counter = 0;
   if (input.is_open()) {
     std::string line;
     std::getline(input, line);  // discard header
@@ -126,6 +126,7 @@ void PagingSimulator::Reset() {
   cur_page_fault_ = 0;
   frame_.Reset();
   page_table_.Reset();
+  strategy_->Reset();
   start_time_ = std::chrono::system_clock::now();
 }
 void PagingSimulator::SetFrameSize(int size) {

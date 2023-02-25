@@ -19,7 +19,7 @@ int PhysicalMemory::UseOneFrame(int page_number) {
   return DEFAULT_FRAME_NO;
 }
 void PhysicalMemory::Reset() {
-  for (auto & frame : frames_) {
+  for (auto &frame : frames_) {
     frame = DEFAULT_FRAME_NO;
   }
   empty_frame = frames_.size();

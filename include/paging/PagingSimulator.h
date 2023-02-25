@@ -23,15 +23,15 @@ struct Indicator {
   int page_size;
   int frame_size;
   std::string strategy_name;
-  int line;
-  int page_fault;
+  size_t line;
+  size_t page_fault;
   std::chrono::duration<double> time_lapse;
 
   Indicator(int page_size,
             int frame_size,
             const std::string &strategy_name,
-            int line,
-            int page_fault,
+            size_t line,
+            size_t page_fault,
             const std::chrono::duration<double> &time_lapse)
       : page_size(page_size),
         frame_size(frame_size),

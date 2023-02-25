@@ -12,11 +12,17 @@ int Fifo::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) {
 void Fifo::AfterNewPage_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_number) {
   queue.push(page_number);
 }
-void Fifo::AfterReplace_(paging::PhysicalMemory &frame, PageTable &page_table, int old_page_number, int new_page_number) {
+void Fifo::AfterReplace_(paging::PhysicalMemory &frame,
+                         PageTable &page_table,
+                         int old_page_number,
+                         int new_page_number) {
   queue.pop();
   queue.push(new_page_number);
 }
 std::string Fifo::GetName() {
   return name_;
+}
+void Fifo::Reset_() {
+  std::queue<int>().swap(queue);
 }
 } // paging

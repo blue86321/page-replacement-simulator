@@ -10,7 +10,7 @@ int Nru::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) {
   int not_reference_modified = default_idx;
   int reference_not_modified = default_idx;
   int reference_modified = default_idx;
-  for (int i = 0; i < frame.Size(); i ++) {
+  for (int i = 0; i < frame.Size(); i++) {
     auto cur_page_no = frame.GetPage(i);
     if (page_table.IsValid(cur_page_no)) {
       if (!page_table.IsReferenced(cur_page_no) && !page_table.IsModified(cur_page_no)) {
@@ -37,7 +37,7 @@ std::string Nru::GetName() {
   return name_;
 }
 void Nru::PeriodOperation(PhysicalMemory &frame, PageTable &page_table) {
-  for (int i = 0; i < frame.Size(); i ++) {
+  for (int i = 0; i < frame.Size(); i++) {
     page_table.SetReference(frame.GetPage(i), false);
   }
 }

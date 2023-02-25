@@ -15,17 +15,14 @@ int Clock::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) 
     head_idx_ = (head_idx_ + 1) % frame.Size();
   }
 }
-void Clock::AfterReplace_(PhysicalMemory &frame,
-                          PageTable &page_table,
-                          int old_page_number,
-                          int new_page_number) {
+void Clock::AfterReplace_(PhysicalMemory &frame, PageTable &page_table, int old_page_number, int new_page_number) {
   head_idx_ = (head_idx_ + 1) % frame.Size();
 }
 std::string Clock::GetName() {
   return name_;
 }
 void Clock::PeriodOperation(PhysicalMemory &frame, PageTable &page_table) {
-  for (int i = 0; i < frame.Size(); i ++) {
+  for (int i = 0; i < frame.Size(); i++) {
     page_table.SetReference(frame.GetPage(i), false);
   }
 }
