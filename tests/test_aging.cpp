@@ -11,6 +11,7 @@ int main() {
   paging_simulator.SetOutputLineFrequency(TEST_OUTPUT_LINE_FREQUENCY);
   paging_simulator.SetStrategy(std::make_unique<paging::strategy::Aging>());
   paging_simulator.SetStrategyPeriod(3);
+  paging_simulator.GenerateInputIfNotExist();
   paging_simulator.Run();
   paging_simulator.ShowStats();
   auto stats = paging_simulator.GetStats();

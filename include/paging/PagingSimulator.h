@@ -7,9 +7,11 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
-#include <unordered_map>
-#include <array>
-#include <map>
+#include <fstream>
+#include <random>
+#include <sys/stat.h>
+#include <string>
+
 #include "strategy/IStrategy.h"
 #include "PageTable.h"
 #include "Common.h"
@@ -55,9 +57,11 @@ class PagingSimulator {
   void SetPageTableSize(int size);
   void SetStrategyPeriod(int period);
   void SetInputModifyPercent(int modify_percent);
- private:
   // generate input file
-  void GenerateInputIfNotExist(int modify_percent);
+  void GenerateInputIfNotExist();
+  void GenerateSmallPageFrequentAccessInputIfNotExist(int small_page_cnt);
+  void GenerateSequenceInputIfNotExist();
+ private:
   std::string GetFileName();
   void Reset();
   void AccessMemory(int page_number, bool is_write);
