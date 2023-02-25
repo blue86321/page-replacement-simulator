@@ -38,9 +38,11 @@ void PageTable::SetReference(int page_number, bool is_reference) {
 void PageTable::SetPageTableSize(int size) {
   page_table_.resize(size);
   Reset();
-  size_ = size;
 }
 void PageTable::Modify(int page_number) {
   page_table_[page_number].modified = true;
+}
+size_t PageTable::Size() {
+  return page_table_.size();
 }
 } // paging

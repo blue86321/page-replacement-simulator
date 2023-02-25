@@ -26,7 +26,7 @@ class PhysicalMemory {
   // frame store page_number to visit page_entry status (valid, reference...)
   // Note: in reality, frame contains actual data as well, but here we ignore it.
   std::vector<int> frames_;
-  int empty_frame;
+  size_t empty_frame;
 };
 
 } // paging

@@ -23,7 +23,7 @@ struct PageEntry {
 
 class PageTable {
  public:
-  explicit PageTable(int size) : size_(size), page_table_(size) {};
+  explicit PageTable(int size) : page_table_(size) {};
  public:
   bool IsValid(int page_number);
   bool IsReferenced(int page_number);
@@ -36,10 +36,9 @@ class PageTable {
   void Modify(int page_number);
   void Reset();
   void SetPageTableSize(int size);
-  int Size() { return size_; };
+  size_t Size();
  private:
   std::vector<PageEntry> page_table_;
-  int size_;
 };
 
 } // paging

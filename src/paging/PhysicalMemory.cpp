@@ -22,6 +22,7 @@ void PhysicalMemory::Reset() {
   for (auto & frame : frames_) {
     frame = DEFAULT_FRAME_NO;
   }
+  empty_frame = frames_.size();
 }
 
 void PhysicalMemory::SetFrameSize(int size) {
