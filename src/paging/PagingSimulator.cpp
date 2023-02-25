@@ -27,7 +27,7 @@ void PagingSimulator::GenerateInputIfNotExist() {
     std::mt19937 generator(rd());
     std::uniform_int_distribution<> dist(1, (int) page_table_.Size());
     for (int i = 0; i < PAGE_REF_LINES; i++) {
-      file << dist(generator) << "\n";
+      file << dist(generator) << ' ' << 0 << "\n";
     }
     file.close();
   }
@@ -41,12 +41,15 @@ void PagingSimulator::Run() {
   // read each line to reference a page
   std::ifstream input;
   input.open(input_file_);
-  uint32_t line_counter = 0;
+  int line_counter = 0;
   if (input.is_open()) {
     std::string line;
+    std::getline(input, line);  // discard header
     while (std::getline(input, line)) {
-      int page_number = stoi(line);
-      AccessMemory(page_number);
+      size_t delimiterIdx = line.find(' ');
+      int page_number = stoi(line.substr(0, delimiterIdx));
+      bool is_modify = stoi(line.substr(delimiterIdx));
+      AccessMemory(page_number, is_modify);
       // stats
       line_counter++;
       if (line_counter % output_line_frequency_ == 0) {
@@ -63,8 +66,11 @@ void PagingSimulator::Run() {
   }
 }
 
-void PagingSimulator::AccessMemory(uint32_t page_number) {
+void PagingSimulator::AccessMemory(int page_number, bool is_modify) {
   if (page_table_.IsValid(page_number)) {
+    if (is_modify) {
+      page_table_.Modify(page_number);
+    }
     page_table_.Reference(page_number);
     strategy_->AfterReference(frame_, page_table_, page_number);
   } else {
@@ -72,26 +78,27 @@ void PagingSimulator::AccessMemory(uint32_t page_number) {
     cur_page_fault_++;
     if (frame_.IsFull()) {
       // page replacement
-      uint32_t old_page_number = strategy_->GetReplacePage(frame_, page_table_);
-      Replace(old_page_number, page_number);
+      int old_page_number = strategy_->GetReplacePage(frame_, page_table_);
+      Replace(old_page_number, page_number, is_modify);
       strategy_->AfterReplace(frame_, page_table_, old_page_number, page_number);
     } else {
-      uint32_t frame_no = frame_.UseOneFrame(page_number);
-      SetupNewPage(page_number, frame_no);
+      int frame_no = frame_.UseOneFrame(page_number);
+      SetupNewPage(page_number, frame_no, is_modify);
       strategy_->AfterNewPage(frame_, page_table_, page_number);
     }
   }
 }
 
-void PagingSimulator::Replace(uint32_t old_page_number, uint32_t new_page_number) {
-  uint32_t frame_no = page_table_.GetFrameNumber(old_page_number);
+void PagingSimulator::Replace(int old_page_number, int new_page_number, bool is_modify) {
   page_table_.Invalidate(old_page_number);
-  PageEntry page_entry(frame_no);
+  int frame_no = page_table_.GetFrameNumber(old_page_number);
+  PageEntry page_entry(frame_no, is_modify);
   page_table_.Set(new_page_number, page_entry);
+  frame_.SetFrame(frame_no, new_page_number);
 }
 
-void PagingSimulator::SetupNewPage(uint32_t page_number, uint32_t frame_no) {
-  PageEntry page_entry(frame_no);
+void PagingSimulator::SetupNewPage(int page_number, int frame_no, bool is_modify) {
+  PageEntry page_entry(frame_no, is_modify);
   page_table_.Set(page_number, page_entry);
 }
 
@@ -117,23 +124,23 @@ void PagingSimulator::Reset() {
   page_table_.Reset();
   start_time = std::chrono::system_clock::now();
 }
-void PagingSimulator::SetFrameSize(uint32_t size) {
+void PagingSimulator::SetFrameSize(int size) {
   frame_.SetFrameSize(size);
 }
-void PagingSimulator::SetPageTableSize(uint32_t size) {
+void PagingSimulator::SetPageTableSize(int size) {
   page_table_.SetPageTableSize(size);
 }
 void PagingSimulator::SetInput(std::string &&file_name) {
   input_file_ = std::move(file_name);
 }
-void PagingSimulator::SetOutputLineFrequency(uint32_t freq) {
+void PagingSimulator::SetOutputLineFrequency(int freq) {
   output_line_frequency_ = freq;
 }
 std::vector<Indicator> PagingSimulator::GetStats() {
   std::sort(stats.begin(), stats.end(), IndicatorComparator);
   return stats;
 }
-void PagingSimulator::SetStrategyPeriod(uint32_t period) {
+void PagingSimulator::SetStrategyPeriod(int period) {
   strategy_->SetPeriod(period);
 }
 

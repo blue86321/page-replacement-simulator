@@ -5,20 +5,20 @@
 #include "paging/PageTable.h"
 
 namespace paging {
-void PageTable::Invalidate(uint32_t page_number) {
+void PageTable::Invalidate(int page_number) {
   page_table_[page_number].valid = false;
 }
 
-void PageTable::Reference(uint32_t page_number) {
+void PageTable::Reference(int page_number) {
   page_table_[page_number].reference = true;
 }
-void PageTable::Set(uint32_t page_number, PageEntry &page_entry) {
+void PageTable::Set(int page_number, PageEntry &page_entry) {
   page_table_[page_number] = page_entry;
 }
-uint32_t PageTable::GetFrameNumber(uint32_t page_number) {
+int PageTable::GetFrameNumber(int page_number) {
   return page_table_[page_number].frame_no;
 }
-bool PageTable::IsValid(uint32_t page_number) {
+bool PageTable::IsValid(int page_number) {
   return page_table_[page_number].valid;
 }
 void PageTable::Reset() {
@@ -26,18 +26,21 @@ void PageTable::Reset() {
     page_entry.valid = false;
   }
 }
-bool PageTable::IsReferenced(uint32_t page_number) {
+bool PageTable::IsReferenced(int page_number) {
   return page_table_[page_number].reference;
 }
-bool PageTable::IsModified(uint32_t page_number) {
+bool PageTable::IsModified(int page_number) {
   return page_table_[page_number].modified;
 }
-void PageTable::SetReference(uint32_t page_number, bool is_reference) {
+void PageTable::SetReference(int page_number, bool is_reference) {
   page_table_[page_number].reference = is_reference;
 }
-void PageTable::SetPageTableSize(uint32_t size) {
+void PageTable::SetPageTableSize(int size) {
   page_table_.resize(size);
   Reset();
   size_ = size;
+}
+void PageTable::Modify(int page_number) {
+  page_table_[page_number].modified = true;
 }
 } // paging
