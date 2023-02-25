@@ -14,7 +14,12 @@ void Aging::AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page
   priority_queue_.emplace(page_number, 1 << 31);
 }
 void Aging::AfterReference_(PhysicalMemory &frame, PageTable &page_table, int page_number) {
-  priority_queue_.UpdateAge(page_number);
+  // has not referenced in this period
+  if (ref_page_this_period.find(page_number) == ref_page_this_period.end()) {
+    ref_page_this_period.insert(page_number);
+    priority_queue_.UpdateAge(page_number);
+  }
+
 }
 void Aging::AfterReplace_(PhysicalMemory &frame,
                           PageTable &page_table,
@@ -28,6 +33,7 @@ std::string Aging::GetName() {
 }
 void Aging::PeriodOperation(PhysicalMemory &frame, PageTable &page_table) {
   priority_queue_.Aging(page_table);
+  ref_page_this_period.clear();
 }
 
 void CustomPq::Aging(PageTable& page_table) {

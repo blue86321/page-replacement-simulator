@@ -6,6 +6,7 @@
 
 #include <string>
 #include <queue>
+#include <unordered_set>
 
 #include "IStrategy.h"
 
@@ -45,6 +46,7 @@ class Aging : public IStrategy {
  private:
   CustomPq priority_queue_;
   std::string name_ = "Aging";
+  std::unordered_set<int> ref_page_this_period{};
 };
 
 } // paging
