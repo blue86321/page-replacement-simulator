@@ -6,15 +6,15 @@
 
 namespace paging::strategy {
 // Lru
-uint32_t Lru::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) {
+int Lru::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) {
   return dl_list_.GetTail()->val;
 }
-void Lru::AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, uint32_t page_number) {
+void Lru::AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_number) {
   Node* node = new Node(page_number);
   page_node_map_[page_number] = node;
   dl_list_.AddToHead(*node);
 }
-void Lru::AfterReference_(PhysicalMemory &frame, PageTable &page_table, uint32_t page_number) {
+void Lru::AfterReference_(PhysicalMemory &frame, PageTable &page_table, int page_number) {
   if (page_node_map_.find(page_number) != page_node_map_.end()) {
     Node* node = page_node_map_[page_number];
     dl_list_.MoveToHead(node);
@@ -22,8 +22,8 @@ void Lru::AfterReference_(PhysicalMemory &frame, PageTable &page_table, uint32_t
 }
 void Lru::AfterReplace_(PhysicalMemory &frame,
                         PageTable &page_table,
-                        uint32_t old_page_number,
-                        uint32_t new_page_number) {
+                        int old_page_number,
+                        int new_page_number) {
   page_node_map_.erase(dl_list_.GetTail()->val);
   dl_list_.RemoveTail();
   AfterNewPage_(frame, page_table, new_page_number);

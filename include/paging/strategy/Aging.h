@@ -12,9 +12,9 @@
 namespace paging::strategy {
 
 struct PageAge {
-  uint32_t page_number;
+  int page_number;
   uint32_t age;
-  PageAge(uint32_t t_pn, uint32_t t_age): page_number(t_pn), age(t_age) {};
+  PageAge(int t_pn, int t_age): page_number(t_pn), age(t_age) {};
 };
 
 class Comparator {
@@ -26,21 +26,21 @@ class Comparator {
 
 class CustomPq : public std::priority_queue<PageAge, std::vector<PageAge>, Comparator> {
  public:
-  void UpdateAge(uint32_t key);
-  void Aging();
+  void UpdateAge(int key);
+  void Aging(PageTable& page_table);
 };
 
 class Aging : public IStrategy {
  protected:
-  void AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, uint32_t page_number) override;
-  void AfterReference_(PhysicalMemory &frame, PageTable &page_table, uint32_t page_number) override;
+  void AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_number) override;
+  void AfterReference_(PhysicalMemory &frame, PageTable &page_table, int page_number) override;
   void AfterReplace_(PhysicalMemory &frame,
                      PageTable &page_table,
-                     uint32_t old_page_number,
-                     uint32_t new_page_number) override;
+                     int old_page_number,
+                     int new_page_number) override;
   void PeriodOperation(PhysicalMemory &frame, PageTable &page_table) override;
  public:
-  uint32_t GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) override;
+  int GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) override;
   std::string GetName() override;
  private:
   CustomPq priority_queue_;

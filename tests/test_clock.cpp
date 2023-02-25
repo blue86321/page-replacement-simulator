@@ -13,7 +13,7 @@ int main() {
   paging_simulator.Run();
   paging_simulator.ShowStats();
   auto stats = paging_simulator.GetStats();
-  if (stats[0].page_fault == 11) {
+  if (stats[0].page_fault == 13) {
     std::cout << testing::PassMsg << "\n";
   } else {
     std::cout << testing::FailMsg << "\n";

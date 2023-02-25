@@ -8,27 +8,33 @@ namespace paging {
 bool PhysicalMemory::IsFull() {
   return empty_frame == 0;
 }
-uint32_t PhysicalMemory::UseOneFrame(uint32_t page_number) {
-  for (size_t i = 0; i < frames_.size(); i++) {
-    if (frames_[i] == 0) {
+int PhysicalMemory::UseOneFrame(int page_number) {
+  for (int i = 0; i < frames_.size(); i++) {
+    if (frames_[i] == DEFAULT_FRAME_NO) {
       frames_[i] = page_number;
       empty_frame--;
       return i;
     }
   }
-  return 0;
+  return DEFAULT_FRAME_NO;
 }
 void PhysicalMemory::Reset() {
   for (auto & frame : frames_) {
-    frame = 0;
+    frame = DEFAULT_FRAME_NO;
   }
 }
 
-void PhysicalMemory::SetFrameSize(uint32_t size) {
-  std::vector<uint32_t>(size).swap(frames_);
+void PhysicalMemory::SetFrameSize(int size) {
+  std::vector<int>(size, DEFAULT_FRAME_NO).swap(frames_);
   empty_frame = size;
 }
-uint32_t PhysicalMemory::GetPage(uint32_t frame_no) {
+int PhysicalMemory::GetPage(int frame_no) {
   return frames_[frame_no];
+}
+size_t PhysicalMemory::Size() {
+  return frames_.size();
+}
+void PhysicalMemory::SetFrame(int frame_no, int page_number) {
+  frames_[frame_no] = page_number;
 }
 } // paging

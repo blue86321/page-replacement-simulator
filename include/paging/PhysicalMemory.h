@@ -7,23 +7,26 @@
 #include "Common.h"
 #include "PageTable.h"
 
+#define DEFAULT_FRAME_NO -1
+
 namespace paging {
 
 class PhysicalMemory {
  public:
-  explicit PhysicalMemory(uint32_t size) : empty_frame(size), frames_(size) {};
+  explicit PhysicalMemory(int size) : empty_frame(size), frames_(size, DEFAULT_FRAME_NO) {};
  public:
   bool IsFull();
   void Reset();
-  uint32_t GetPage(uint32_t frame_no);
-  uint32_t UseOneFrame(uint32_t page_number);
-  void SetFrameSize(uint32_t size);
-  uint32_t Size() { return frames_.size(); };
+  int GetPage(int frame_no);
+  int UseOneFrame(int page_number);
+  void SetFrame(int frame_no, int page_number);
+  void SetFrameSize(int size);
+  size_t Size();
  private:
   // frame store page_number to visit page_entry status (valid, reference...)
   // Note: in reality, frame contains actual data as well, but here we ignore it.
-  std::vector<uint32_t> frames_;
-  uint32_t empty_frame;
+  std::vector<int> frames_;
+  int empty_frame;
 };
 
 } // paging
