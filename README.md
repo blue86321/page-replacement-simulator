@@ -13,7 +13,12 @@ make
 - in `build` directory
 ```shell
 cd example
-./example
+./different_frames
+./different_modify_percent
+./different_pages
+./different_periods
+./sequence_access
+./small_page_frequent_access
 ```
 
 ## Test
