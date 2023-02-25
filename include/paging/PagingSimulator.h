@@ -53,6 +53,7 @@ class PagingSimulator {
   void ShowStats();
   void SetFrameSize(uint32_t size);
   void SetPageTableSize(uint32_t size);
+  void SetStrategyPeriod(uint32_t period);
  private:
   void Reset();
   // generate input file

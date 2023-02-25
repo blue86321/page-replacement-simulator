@@ -26,4 +26,7 @@ void IStrategy::CheckPeriod(PhysicalMemory &frame, PageTable &page_table) {
     PeriodOperation(frame, page_table);
   }
 }
+void IStrategy::SetPeriod(uint32_t period) {
+  period_ = period;
+}
 }

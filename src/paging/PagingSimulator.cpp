@@ -133,6 +133,9 @@ std::vector<Indicator> PagingSimulator::GetStats() {
   std::sort(stats.begin(), stats.end(), IndicatorComparator);
   return stats;
 }
+void PagingSimulator::SetStrategyPeriod(uint32_t period) {
+  strategy_->SetPeriod(period);
+}
 
 }
 

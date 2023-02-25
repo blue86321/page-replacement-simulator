@@ -28,7 +28,7 @@ class IStrategy {
                              uint32_t new_page_number);
   // strategy name
   virtual std::string GetName() = 0;
-  void SetPeriod(uint32_t period) { period_ = period; };
+  void SetPeriod(uint32_t period);
  protected:
   virtual void AfterNewPage_(paging::PhysicalMemory &frame, paging::PageTable &page_table, uint32_t page_number) = 0;
   virtual void AfterReference_(paging::PhysicalMemory &frame, paging::PageTable &page_table, uint32_t page_number) = 0;
