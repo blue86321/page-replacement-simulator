@@ -13,12 +13,11 @@
 #define PAGE 1024
 #define FRAME 128
 
-
 void TimeAlgo(std::string_view strategy_str) {
   double seconds = 0;
   uint32_t page_faults = 0;
 
-  for (int i = 0; i < LOOP; i ++) {
+  for (int i = 0; i < LOOP; i++) {
     paging::PagingSimulator paging_simulator(PAGE, FRAME);
     paging_simulator.SetStrategyPeriod(100);
     paging_simulator.SetInputModifyPercent(0);
@@ -41,13 +40,13 @@ void TimeAlgo(std::string_view strategy_str) {
     page_faults = stats[stats.size() - 1].page_fault;
   }
   std::cout
-    << "Page: " << PAGE
-    << ", Frame: " << FRAME
-    << ", Strategy: " << strategy_str
-    << ", Loop: " << LOOP
-    << ", Time: " << seconds
-    << ", each page fault: " << page_faults
-    << "\n";
+      << "Page: " << PAGE
+      << ", Frame: " << FRAME
+      << ", Strategy: " << strategy_str
+      << ", Loop: " << LOOP
+      << ", Time: " << seconds
+      << ", each page fault: " << page_faults
+      << "\n";
 }
 
 int main() {

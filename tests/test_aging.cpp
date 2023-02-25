@@ -4,7 +4,6 @@
 #include "paging/strategy/Aging.h"
 #include "Config.h"
 
-
 int main() {
   paging::PagingSimulator paging_simulator(PAGE_SIZE, FRAME_SIZE);
   paging_simulator.SetInput(TEST_INPUT_FILE);
