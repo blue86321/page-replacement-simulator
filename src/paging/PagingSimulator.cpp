@@ -4,10 +4,7 @@
 
 #include "paging/PagingSimulator.h"
 
-#include <fstream>
-#include <random>
-#include <sys/stat.h>
-#include <string>
+#include "paging/util/InputGenerator.h"
 
 namespace paging {
 void PagingSimulator::SetStrategy(std::unique_ptr<strategy::IStrategy> &&strategy) {
@@ -19,32 +16,23 @@ std::string PagingSimulator::GetFileName() {
   return input_file_ + "_" + std::to_string(page_table_.Size()) + "p_" + std::to_string(modify_percent_) + "m.txt";
 }
 
-void PagingSimulator::GenerateInputIfNotExist(int modify_percent) {
-  std::string file_name = GetFileName();
-  struct stat buffer{};
-  bool exists = stat(file_name.c_str(), &buffer) == 0;
-  if (!exists) {
-    std::ofstream file;
-    file.open(file_name);
-    file << "Page" << ' ' << "IsModify" << "\n";
+void PagingSimulator::GenerateInputIfNotExist() {
+  util::InputGenerator::GenerateInputIfNotExist(GetFileName(), page_table_.Size(), modify_percent_, PAGE_REF_LINES);
+}
 
-    std::random_device rd;  // non-deterministic generator
-    std::mt19937 generator(rd());
-    std::uniform_int_distribution<> page_dist(0, page_table_.Size() - 1);
-    std::vector<double> data_range{0, 0, 1, 1};
-    double m_pct = modify_percent / 100.0;
-    std::vector<double> weight{1 - m_pct, 0, m_pct};
-    std::piecewise_constant_distribution<> modify_dist(data_range.begin(), data_range.end(), weight.begin());
-    for (int i = 0; i < PAGE_REF_LINES; i++) {
-      file << page_dist(generator) << ' ' << modify_dist(generator) << "\n";
-    }
-    file.close();
-  }
+void PagingSimulator::GenerateSmallPageFrequentAccessInputIfNotExist(int small_page_cnt) {
+  util::InputGenerator::GenerateSmallPageFrequentAccessInputIfNotExist(GetFileName(),
+                                                                       page_table_.Size(),
+                                                                       modify_percent_,
+                                                                       PAGE_REF_LINES,
+                                                                       small_page_cnt);
+}
+
+void PagingSimulator::GenerateSequenceInputIfNotExist() {
+  util::InputGenerator::GenerateSequenceInputIfNotExist(GetFileName(), page_table_.Size(), modify_percent_, PAGE_REF_LINES);
 }
 
 void PagingSimulator::Run() {
-  GenerateInputIfNotExist(modify_percent_);
-
   Reset();
 
   // read each line to reference a page
@@ -122,9 +110,16 @@ bool IndicatorComparator(const Indicator &a, const Indicator &b) {
 void PagingSimulator::ShowStats() {
   std::sort(stats_.begin(), stats_.end(), IndicatorComparator);
   for (const auto &indicator : stats_) {
-    std::cout << "Frame: " << indicator.frame_size << ", Page: " << indicator.page_size << ", Strategy: "
-              << indicator.strategy_name << ", Line: " << indicator.line << ", Page fault: " << indicator.page_fault
-              << "\n";
+    std::cout
+      << "Frame: " << indicator.frame_size
+      << ", Page: " << indicator.page_size
+      << ", Strategy: " << indicator.strategy_name
+      << ", Modify Pct: " << modify_percent_ << "%"
+      << ", Period: " << strategy_->GetPeriod()
+      << ", Line: " << indicator.line
+      << ", Page fault: " << indicator.page_fault
+      << ", Time: " << indicator.time_lapse.count()
+      << "\n";
   }
 }
 void PagingSimulator::Reset() {
@@ -155,6 +150,5 @@ void PagingSimulator::SetStrategyPeriod(int period) {
 void PagingSimulator::SetInputModifyPercent(int modify_percent) {
   modify_percent_ = modify_percent;
 }
-
 }
 

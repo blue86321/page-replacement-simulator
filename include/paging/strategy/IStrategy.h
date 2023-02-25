@@ -30,6 +30,7 @@ class IStrategy {
   // strategy name
   virtual std::string GetName() = 0;
   void SetPeriod(int period);
+  int GetPeriod();
  protected:
   virtual void AfterNewPage_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_number) = 0;
   virtual void AfterReference_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_number) = 0;
@@ -40,7 +41,7 @@ class IStrategy {
   virtual void PeriodOperation(PhysicalMemory &frame, PageTable &page_table) = 0;
  private:
   void CheckPeriod(PhysicalMemory &frame, PageTable &page_table);
-  static inline int period_ = 3;
+  static inline int period_ = 10;
   int cur_period_ = 0;
 };
 
