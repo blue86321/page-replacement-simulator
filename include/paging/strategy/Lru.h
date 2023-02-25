@@ -14,7 +14,7 @@ struct Node {
   int val;
   Node* next;
   Node* prev;
-  Node(): val(0), next(nullptr), prev(nullptr) {};
+  Node(): val(-1), next(nullptr), prev(nullptr) {};
   explicit Node(int t_val): val(t_val), next(nullptr), prev(nullptr) {};
 };
 

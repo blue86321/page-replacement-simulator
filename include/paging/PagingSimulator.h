@@ -54,10 +54,12 @@ class PagingSimulator {
   void SetFrameSize(int size);
   void SetPageTableSize(int size);
   void SetStrategyPeriod(int period);
+  void SetInputModifyPercent(int modify_percent);
  private:
-  void Reset();
   // generate input file
-  void GenerateInputIfNotExist();
+  void GenerateInputIfNotExist(int modify_percent);
+  std::string GetFileName();
+  void Reset();
   void AccessMemory(int page_number, bool is_write);
   void Replace(int from_page_number, int to_page_number, bool is_write);
   void SetupNewPage(int page_number, int frame_no, bool is_write);
@@ -65,13 +67,14 @@ class PagingSimulator {
   // physical frames, each frame stores the page number
   paging::PhysicalMemory frame_;
   paging::PageTable page_table_;
-  // stats: strategy_name -> indicators
-  std::vector<Indicator> stats;
+  // stats_: strategy_name -> indicators
+  std::vector<Indicator> stats_;
   int cur_page_fault_{0};
   std::unique_ptr<strategy::IStrategy> strategy_;
   std::string input_file_;
   int output_line_frequency_;
-  std::chrono::time_point<std::chrono::system_clock> start_time;
+  std::chrono::time_point<std::chrono::system_clock> start_time_;
+  int modify_percent_ = 50;
 };
 
 }

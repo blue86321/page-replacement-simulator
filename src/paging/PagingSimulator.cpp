@@ -15,32 +15,41 @@ void PagingSimulator::SetStrategy(std::unique_ptr<strategy::IStrategy> &&strateg
   strategy_ = std::move(strategy);
 }
 
-void PagingSimulator::GenerateInputIfNotExist() {
-//  std::string file_name = std::string(INPUT_PAGE_REF_NAME) + "_" + std::to_string(MAX_PAGE) + ".txt";
-  std::string file_name = input_file_;
+std::string PagingSimulator::GetFileName() {
+  return input_file_ + "_" + std::to_string(page_table_.Size()) + "p_" + std::to_string(modify_percent_) + "m.txt";
+}
+
+void PagingSimulator::GenerateInputIfNotExist(int modify_percent) {
+  std::string file_name = GetFileName();
   struct stat buffer{};
   bool exists = stat(file_name.c_str(), &buffer) == 0;
   if (!exists) {
     std::ofstream file;
     file.open(file_name);
+    file << "Page" << ' ' << "IsModify" << "\n";
+
     std::random_device rd;  // non-deterministic generator
     std::mt19937 generator(rd());
-    std::uniform_int_distribution<> dist(1, (int) page_table_.Size());
+    std::uniform_int_distribution<> page_dist(0, page_table_.Size() - 1);
+    std::vector<double> data_range{0, 0, 1, 1};
+    double m_pct = modify_percent / 100.0;
+    std::vector<double> weight{1 - m_pct, 0, m_pct};
+    std::piecewise_constant_distribution<> modify_dist(data_range.begin(), data_range.end(), weight.begin());
     for (int i = 0; i < PAGE_REF_LINES; i++) {
-      file << dist(generator) << ' ' << 0 << "\n";
+      file << page_dist(generator) << ' ' << modify_dist(generator) << "\n";
     }
     file.close();
   }
 }
 
 void PagingSimulator::Run() {
-  GenerateInputIfNotExist();
+  GenerateInputIfNotExist(modify_percent_);
 
   Reset();
 
   // read each line to reference a page
   std::ifstream input;
-  input.open(input_file_);
+  input.open(GetFileName());
   int line_counter = 0;
   if (input.is_open()) {
     std::string line;
@@ -50,16 +59,16 @@ void PagingSimulator::Run() {
       int page_number = stoi(line.substr(0, delimiterIdx));
       bool is_modify = stoi(line.substr(delimiterIdx));
       AccessMemory(page_number, is_modify);
-      // stats
+      // stats_
       line_counter++;
       if (line_counter % output_line_frequency_ == 0) {
         auto now = std::chrono::system_clock::now();
-        stats.emplace_back(page_table_.Size(),
-                           frame_.Size(),
-                           strategy_->GetName(),
-                           line_counter,
-                           cur_page_fault_,
-                           now - start_time);
+        stats_.emplace_back(page_table_.Size(),
+                            frame_.Size(),
+                            strategy_->GetName(),
+                            line_counter,
+                            cur_page_fault_,
+                            now - start_time_);
       }
     }
     input.close();
@@ -111,8 +120,8 @@ bool IndicatorComparator(const Indicator &a, const Indicator &b) {
 }
 
 void PagingSimulator::ShowStats() {
-  std::sort(stats.begin(), stats.end(), IndicatorComparator);
-  for (const auto &indicator : stats) {
+  std::sort(stats_.begin(), stats_.end(), IndicatorComparator);
+  for (const auto &indicator : stats_) {
     std::cout << "Frame: " << indicator.frame_size << ", Page: " << indicator.page_size << ", Strategy: "
               << indicator.strategy_name << ", Line: " << indicator.line << ", Page fault: " << indicator.page_fault
               << "\n";
@@ -122,7 +131,7 @@ void PagingSimulator::Reset() {
   cur_page_fault_ = 0;
   frame_.Reset();
   page_table_.Reset();
-  start_time = std::chrono::system_clock::now();
+  start_time_ = std::chrono::system_clock::now();
 }
 void PagingSimulator::SetFrameSize(int size) {
   frame_.SetFrameSize(size);
@@ -137,11 +146,14 @@ void PagingSimulator::SetOutputLineFrequency(int freq) {
   output_line_frequency_ = freq;
 }
 std::vector<Indicator> PagingSimulator::GetStats() {
-  std::sort(stats.begin(), stats.end(), IndicatorComparator);
-  return stats;
+  std::sort(stats_.begin(), stats_.end(), IndicatorComparator);
+  return stats_;
 }
 void PagingSimulator::SetStrategyPeriod(int period) {
   strategy_->SetPeriod(period);
+}
+void PagingSimulator::SetInputModifyPercent(int modify_percent) {
+  modify_percent_ = modify_percent;
 }
 
 }
