@@ -6,10 +6,10 @@
 
 namespace paging::strategy {
 int Nru::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) {
-  int64_t default_idx = INT64_MAX;
-  int64_t not_reference_modified = default_idx;
-  int64_t reference_not_modified = default_idx;
-  int64_t reference_modified = default_idx;
+  int default_idx = INT_MAX;
+  int not_reference_modified = default_idx;
+  int reference_not_modified = default_idx;
+  int reference_modified = default_idx;
   for (int i = 0; i < frame.Size(); i ++) {
     auto cur_page_no = frame.GetPage(i);
     if (page_table.IsValid(cur_page_no)) {
