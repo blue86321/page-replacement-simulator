@@ -33,7 +33,7 @@ int PhysicalMemory::GetPage(int frame_no) {
   return frames_[frame_no];
 }
 size_t PhysicalMemory::Size() {
-  return frames_.size();
+  return frames_.size() - empty_frame;
 }
 void PhysicalMemory::SetFrame(int frame_no, int page_number) {
   frames_[frame_no] = page_number;
