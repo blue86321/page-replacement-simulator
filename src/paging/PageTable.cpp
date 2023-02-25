@@ -12,7 +12,7 @@ void PageTable::Invalidate(uint32_t page_number) {
 void PageTable::Reference(uint32_t page_number) {
   page_table_[page_number].reference = true;
 }
-void PageTable::Set(uint32_t page_number, PageEntry page_entry) {
+void PageTable::Set(uint32_t page_number, PageEntry &page_entry) {
   page_table_[page_number] = page_entry;
 }
 uint32_t PageTable::GetFrameNumber(uint32_t page_number) {
@@ -22,7 +22,7 @@ bool PageTable::IsValid(uint32_t page_number) {
   return page_table_[page_number].valid;
 }
 void PageTable::Reset() {
-  for (auto & page_entry : page_table_) {
+  for (auto &page_entry : page_table_) {
     page_entry.valid = false;
   }
 }

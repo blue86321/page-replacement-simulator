@@ -30,12 +30,12 @@ class PageTable {
   bool IsModified(uint32_t page_number);
   void SetReference(uint32_t page_number, bool is_reference);
   uint32_t GetFrameNumber(uint32_t page_number);
-  void Set(uint32_t page_number, PageEntry page_entry);
+  void Set(uint32_t page_number, PageEntry &page_entry);
   void Invalidate(uint32_t page_number);
   void Reference(uint32_t page_number);
   void Reset();
   void SetPageTableSize(uint32_t size);
-  uint32_t Size() {return size_; };
+  uint32_t Size() { return size_; };
  private:
   std::vector<PageEntry> page_table_;
   uint32_t size_;

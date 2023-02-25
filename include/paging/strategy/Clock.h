@@ -10,12 +10,17 @@
 namespace paging::strategy {
 
 
-class Clock: public paging::IStrategy {
+class Clock: public IStrategy {
+ protected:
+  void PeriodOperation(PhysicalMemory &frame, PageTable &page_table) override;
+  void AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, uint32_t page_number) override;
+  void AfterReference_(PhysicalMemory &frame, PageTable &page_table, uint32_t page_number) override {};
+  void AfterReplace_(PhysicalMemory &frame,
+                     PageTable &page_table,
+                     uint32_t old_page_number,
+                     uint32_t new_page_number) override;
  public:
-  uint32_t GetReplacePage(paging::PageTable &page_table) override;
-  void AfterNewPage(paging::PageTable &page_table, uint32_t page_number) override;
-  void AfterReference(paging::PageTable &page_table, uint32_t page_number) override;
-  void AfterReplace(paging::PageTable &page_table, uint32_t old_page_number, uint32_t new_page_number) override;
+  uint32_t GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) override;
   std::string GetName() override;
  private:
   std::string name_ = "Clock";

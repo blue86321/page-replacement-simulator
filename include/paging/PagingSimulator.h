@@ -45,7 +45,7 @@ class PagingSimulator {
       : page_table_(page_size), frame_(frame_size), output_line_frequency_(OUTPUT_LINE_FREQUENCY) {};
  public:
   // rvalue reference, so that value is temporary, we can do std::move
-  void SetStrategy(std::unique_ptr<paging::IStrategy> &&strategy);
+  void SetStrategy(std::unique_ptr<strategy::IStrategy> &&strategy);
   void SetInput(std::string &&file_name);
   void SetOutputLineFrequency(uint32_t freq);
   void Run();
@@ -53,6 +53,7 @@ class PagingSimulator {
   void ShowStats();
   void SetFrameSize(uint32_t size);
   void SetPageTableSize(uint32_t size);
+  void SetStrategyPeriod(uint32_t period);
  private:
   void Reset();
   // generate input file
@@ -67,7 +68,7 @@ class PagingSimulator {
   // stats: strategy_name -> indicators
   std::vector<Indicator> stats;
   uint32_t cur_page_fault_{0};
-  std::unique_ptr<paging::IStrategy> strategy_;
+  std::unique_ptr<strategy::IStrategy> strategy_;
   std::string input_file_;
   uint32_t output_line_frequency_;
   std::chrono::time_point<std::chrono::system_clock> start_time;
