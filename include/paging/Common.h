@@ -5,8 +5,8 @@
 #pragma once
 namespace paging {
 
-#define PAGE_REF_LINES 20000
-#define OUTPUT_LINE_FREQUENCY 1000
+#define PAGE_REF_LINES 50000
+#define OUTPUT_LINE_FREQUENCY 50000
 #define INPUT_FILE "input/page_reference"
 
 } // paging
