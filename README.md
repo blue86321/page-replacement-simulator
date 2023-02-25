@@ -9,6 +9,12 @@ cmake ..
 make
 ```
 
+## Test
+- in `build` directory
+```shell
+ctest
+```
+
 ## Run
 - in `build` directory
 ```shell
@@ -19,13 +25,16 @@ cd example
 ./different_periods
 ./sequence_access
 ./small_page_frequent_access
+./time_algorithms
 ```
 
-## Test
-- in `build` directory
-```shell
-ctest
-```
+## Algorithms
+- Aging
+- Clock
+- FIFO (first-in-first-out)
+- LRU (Least Recently Used)
+- NRU (Not Recently Used)
+
 
 ## Note
 - For simplicity, disregard `displacement`
