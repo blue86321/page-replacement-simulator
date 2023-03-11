@@ -25,15 +25,15 @@ class PageTable {
  public:
   explicit PageTable(int size) : page_table_(size) {};
  public:
-  bool IsValid(int page_number);
-  bool IsReferenced(int page_number);
-  bool IsModified(int page_number);
-  void SetReference(int page_number, bool is_reference);
-  int GetFrameNumber(int page_number);
-  void Set(int page_number, PageEntry &page_entry);
-  void Invalidate(int page_number);
-  void Reference(int page_number);
-  void Modify(int page_number);
+  bool IsValid(int page_no);
+  bool IsReferenced(int page_no);
+  bool IsModified(int page_no);
+  void SetReference(int page_no, bool is_reference);
+  int GetFrameNumber(int page_no);
+  void Set(int page_no, PageEntry &page_entry);
+  void Invalidate(int page_no);
+  void Reference(int page_no);
+  void Modify(int page_no);
   void Reset();
   void SetPageTableSize(int size);
   size_t Size();

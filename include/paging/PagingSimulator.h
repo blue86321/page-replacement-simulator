@@ -29,7 +29,7 @@ struct Indicator {
 
   Indicator(int page_size,
             int frame_size,
-            const std::string &strategy_name,
+            const std::string_view &strategy_name,
             size_t line,
             size_t page_fault,
             const std::chrono::duration<double> &time_lapse)
@@ -48,8 +48,11 @@ class PagingSimulator {
  public:
   // rvalue reference, so that value is temporary, we can do std::move
   void SetStrategy(std::unique_ptr<strategy::IStrategy> &&strategy);
+  // set input file location
   void SetInput(std::string &&file_name);
+  // stat is collected every `freq` line
   void SetOutputLineFrequency(int freq);
+  // Run the simulator
   void Run();
   std::vector<Indicator> GetStats();
   void ShowStats();
@@ -64,9 +67,9 @@ class PagingSimulator {
  private:
   std::string GetFileName();
   void Reset();
-  void AccessMemory(int page_number, bool is_write);
-  void Replace(int from_page_number, int to_page_number, bool is_write);
-  void SetupNewPage(int page_number, int frame_no, bool is_write);
+  void AccessMemory(int page_no, bool is_write);
+  void Replace(int from_page_no, int to_page_no, bool is_write);
+  void SetupNewPage(int page_no, int frame_no, bool is_write);
  private:
   // physical frames, each frame stores the page number
   paging::PhysicalMemory frame_;

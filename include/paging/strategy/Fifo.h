@@ -14,13 +14,13 @@ namespace paging::strategy {
 class Fifo : public IStrategy {
  protected:
   void Reset_() override;
-  void AfterNewPage_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_number) override;
-  void PeriodOperation(PhysicalMemory &frame, PageTable &page_table) override {};
-  void AfterReference_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_number) override {};
+  void AfterNewPage_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_no) override;
+  void PeriodOperation_(PhysicalMemory &frame, PageTable &page_table) override {};
+  void AfterReference_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_no) override {};
   void AfterReplace_(paging::PhysicalMemory &frame,
                      paging::PageTable &page_table,
-                     int old_page_number,
-                     int new_page_number) override;
+                     int old_page_no,
+                     int new_page_no) override;
  public:
   int GetReplacePage(paging::PhysicalMemory &frame, paging::PageTable &page_table) override;
   std::string GetName() override;

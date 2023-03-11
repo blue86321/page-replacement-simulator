@@ -15,17 +15,17 @@ namespace paging::strategy {
 
 class Aging : public IStrategy {
  protected:
-  void AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_number) override;
-  void AfterReference_(PhysicalMemory &frame, PageTable &page_table, int page_number) override;
-  void AfterReplace_(PhysicalMemory &frame, PageTable &page_table, int old_page_number, int new_page_number) override;
-  void PeriodOperation(PhysicalMemory &frame, PageTable &page_table) override;
+  void AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_no) override;
+  void AfterReference_(PhysicalMemory &frame, PageTable &page_table, int page_no) override;
+  void AfterReplace_(PhysicalMemory &frame, PageTable &page_table, int old_page_no, int new_page_no) override;
+  void PeriodOperation_(PhysicalMemory &frame, PageTable &page_table) override;
   void Reset_() override;
  public:
   int GetReplacePage(PhysicalMemory &a, paging::PageTable &b) override;
   std::string GetName() override;
  private:
   std::unordered_map<int, unsigned int> age_map{};
-  std::unordered_set<int> ref_page_this_period{};
+  std::unordered_set<int> ref_page_cur_period{};
   std::string name_ = "Aging";
 };
 

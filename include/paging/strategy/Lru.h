@@ -43,10 +43,10 @@ class DLList {
 // insert and remove is O(1).
 class Lru : public IStrategy {
  protected:
-  void AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_number) override;
-  void AfterReference_(PhysicalMemory &frame, PageTable &page_table, int page_number) override;
-  void AfterReplace_(PhysicalMemory &frame, PageTable &page_table, int old_page_number, int new_page_number) override;
-  void PeriodOperation(PhysicalMemory &frame, PageTable &page_table) override {};
+  void AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_no) override;
+  void AfterReference_(PhysicalMemory &frame, PageTable &page_table, int page_no) override;
+  void AfterReplace_(PhysicalMemory &frame, PageTable &page_table, int old_page_no, int new_page_no) override;
+  void PeriodOperation_(PhysicalMemory &frame, PageTable &page_table) override {};
  public:
   int GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) override;
   std::string GetName() override;
@@ -57,7 +57,7 @@ class Lru : public IStrategy {
  protected:
   void Reset_() override;
  private:
-  // page_number -> node*
+  // page_no -> node*
   std::unordered_map<int, Node *> page_node_map_{};
 };
 

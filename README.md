@@ -35,6 +35,28 @@ cd example
 - LRU (Least Recently Used)
 - NRU (Not Recently Used)
 
+## Output Data
+- Frame: number of frames in physical memory.
+- Page: number of pageEntry in page table.
+- Strategy: page replacement algorithm being used.
+- Modify Pct: percentage of modify command in input file.
+- Period: `PeriodOperation` will be triggered every how many lines.
+  - Because some algorithms do something periodically.
+  - e.g. NRU reset all frames' reference bit to 0 periodically.
+- Line: number of accumulated lines in the input file.
+- Page fault: number of page fault so far in the input file.
+- Time: time elapses so far from `Run` the simulator, the unit is second.
+
+
+- e.g.
+  - Frame: 1024
+  - Page: 1024
+  - Strategy: NRU
+  - Modify Pct: 0%
+  - Period: 100
+  - Line: 20000
+  - Page fault: 1024
+  - Time: 0.007801
 
 ## Note
-- For simplicity, disregard `displacement`
+- For simplicity, disregard `displacement` when referencing a page.
