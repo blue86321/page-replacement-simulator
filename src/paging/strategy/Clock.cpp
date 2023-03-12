@@ -24,4 +24,7 @@ void Clock::AfterReplace_(PhysicalMemory &frame, PageTable &page_table, int old_
 std::string Clock::GetName() {
   return name_;
 }
+void Clock::Reset_() {
+  head_idx_ = 0;
+}
 } // strategy

@@ -15,7 +15,7 @@ class Clock : public IStrategy {
   void AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_no) override {};
   void AfterReference_(PhysicalMemory &frame, PageTable &page_table, int page_no) override {};
   void AfterReplace_(PhysicalMemory &frame, PageTable &page_table, int old_page_no, int new_page_no) override;
-  void Reset_() override {};
+  void Reset_() override;
  public:
   int GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) override;
   std::string GetName() override;
