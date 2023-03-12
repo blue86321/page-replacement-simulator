@@ -24,11 +24,4 @@ void Clock::AfterReplace_(PhysicalMemory &frame, PageTable &page_table, int old_
 std::string Clock::GetName() {
   return name_;
 }
-
-void Clock::PeriodOperation_(PhysicalMemory &frame, PageTable &page_table) {
-  // set all frames' reference bit to zero periodically
-  for (int i = 0; i < frame.Size(); i++) {
-    page_table.SetReference(frame.GetPage(i), false);
-  }
-}
 } // strategy
