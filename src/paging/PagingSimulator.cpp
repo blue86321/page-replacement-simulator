@@ -20,12 +20,15 @@ void PagingSimulator::GenerateInputIfNotExist() {
   util::InputGenerator::GenerateInputIfNotExist(GetFileName(), page_table_.Size(), modify_percent_, PAGE_REF_LINES);
 }
 
-void PagingSimulator::GenerateSmallPageFrequentAccessInputIfNotExist(int small_page_cnt) {
+void PagingSimulator::GenerateSmallPageFrequentAccessInputIfNotExist(int small_block_cnt,
+                                                                     int page_per_block,
+                                                                     int interval) {
   util::InputGenerator::GenerateSmallPageFrequentAccessInputIfNotExist(GetFileName(),
                                                                        page_table_.Size(),
                                                                        modify_percent_,
-                                                                       PAGE_REF_LINES,
-                                                                       small_page_cnt);
+                                                                       PAGE_REF_LINES, small_block_cnt,
+                                                                       page_per_block,
+                                                                       interval);
 }
 
 void PagingSimulator::GenerateSequenceInputIfNotExist() {
@@ -121,16 +124,10 @@ bool IndicatorComparator(const Indicator &a, const Indicator &b) {
 void PagingSimulator::ShowStats() {
   std::sort(stats_.begin(), stats_.end(), IndicatorComparator);
   for (const auto &indicator : stats_) {
-    std::cout
-        << "Frame: " << indicator.frame_size
-        << ", Page: " << indicator.page_size
-        << ", Strategy: " << indicator.strategy_name
-        << ", Modify Pct: " << modify_percent_ << "%"
-        << ", Period: " << strategy_->GetPeriod()
-        << ", Line: " << indicator.line
-        << ", Page fault: " << indicator.page_fault
-        << ", Time: " << indicator.time_lapse.count()
-        << "\n";
+    std::cout << "Frame: " << indicator.frame_size << ", Page: " << indicator.page_size << ", Strategy: "
+              << indicator.strategy_name << ", Modify Pct: " << modify_percent_ << "%" << ", Period: "
+              << strategy_->GetPeriod() << ", Line: " << indicator.line << ", Page fault: " << indicator.page_fault
+              << ", Time: " << indicator.time_lapse.count() << "\n";
   }
 }
 
@@ -168,6 +165,9 @@ void PagingSimulator::SetStrategyPeriod(int period) {
 
 void PagingSimulator::SetInputModifyPercent(int modify_percent) {
   modify_percent_ = modify_percent;
+}
+void PagingSimulator::ClearStats() {
+  std::vector<Indicator>().swap(stats_);
 }
 }
 

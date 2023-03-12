@@ -56,13 +56,14 @@ class PagingSimulator {
   void Run();
   std::vector<Indicator> GetStats();
   void ShowStats();
+  void ClearStats();
   void SetFrameSize(int size);
   void SetPageTableSize(int size);
   void SetStrategyPeriod(int period);
   void SetInputModifyPercent(int modify_percent);
   // generate input file
   void GenerateInputIfNotExist();
-  void GenerateSmallPageFrequentAccessInputIfNotExist(int small_page_cnt);
+  void GenerateSmallPageFrequentAccessInputIfNotExist(int small_block_cnt, int page_per_block, int interval);
   void GenerateSequenceInputIfNotExist();
  private:
   std::string GetFileName();
