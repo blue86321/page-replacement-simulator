@@ -11,7 +11,7 @@ namespace paging::strategy {
 
 class Clock : public IStrategy {
  protected:
-  void PeriodOperation_(PhysicalMemory &frame, PageTable &page_table) override {};
+  void PeriodOperation_(PhysicalMemory &frame, PageTable &page_table) override;
   void AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_no) override {};
   void AfterReference_(PhysicalMemory &frame, PageTable &page_table, int page_no) override {};
   void AfterReplace_(PhysicalMemory &frame, PageTable &page_table, int old_page_no, int new_page_no) override;

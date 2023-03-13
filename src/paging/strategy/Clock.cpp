@@ -27,4 +27,10 @@ std::string Clock::GetName() {
 void Clock::Reset_() {
   head_idx_ = 0;
 }
+void Clock::PeriodOperation_(PhysicalMemory &frame, PageTable &page_table) {
+  // reset all frames' reference bit to 0
+  for (int i = 0; i < frame.Size(); i++) {
+    page_table.SetReference(frame.GetPage(i), false);
+  }
+}
 } // strategy
