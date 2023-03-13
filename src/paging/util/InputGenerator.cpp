@@ -6,10 +6,10 @@
 
 namespace paging::util {
 
-void InputGenerator::GenerateInputIfNotExist(const std::string &file_name,
-                                             size_t max_page,
-                                             int modify_percent_,
-                                             size_t line_cnt) {
+void InputGenerator::GenerateUniformDistInputIfNotExist(const std::string &file_name,
+                                                        size_t max_page,
+                                                        int modify_percent_,
+                                                        size_t line_cnt) {
   // generate page reference in uniform distribution
   struct stat buffer{};
   bool exists = stat(file_name.c_str(), &buffer) == 0;
@@ -32,19 +32,22 @@ void InputGenerator::GenerateInputIfNotExist(const std::string &file_name,
   }
 }
 
-void InputGenerator::GenerateSmallPageFrequentAccessInputIfNotExist(const std::string &file_name,
-                                                                    size_t max_page,
-                                                                    int modify_percent_,
-                                                                    size_t line_cnt,
-                                                                    int small_block_cnt,
-                                                                    int page_per_block,
-                                                                    int interval) {
-  // frequent access pages
+void InputGenerator::GenerateHotPageAccessInputIfNotExist(const std::string &file_name,
+                                                          size_t max_page,
+                                                          int modify_percent_,
+                                                          size_t line_cnt,
+                                                          int small_block_cnt,
+                                                          int page_per_block,
+                                                          int interval) {
+  // Generate hot page access input, visit a random block of hot pages every `interval` lines.
+  //  Hot page: in blocks, each block has `page_per_block` pages.
+
+  // hot pages
   std::vector<std::vector<int>> blocks(small_block_cnt);
   for (int i = 0; i < small_block_cnt; i++) {
     std::vector<int> pages = std::vector<int>(page_per_block);
     for (int j = 0; j < page_per_block; j++) {
-      pages[j] = j;
+      pages[j] = 10 * i + j;
     }
     blocks[i] = pages;
   }
@@ -58,8 +61,8 @@ void InputGenerator::GenerateSmallPageFrequentAccessInputIfNotExist(const std::s
 
     std::random_device rd;  // non-deterministic generator
     std::mt19937 generator(rd());
-    std::uniform_int_distribution<> page_dist(page_per_block, (int) max_page - 1);
-    std::uniform_int_distribution<> block_dist(0, blocks.size() - 1);
+    std::uniform_int_distribution<> page_dist(small_block_cnt * page_per_block, (int) max_page - 1);
+    std::uniform_int_distribution<> block_dist(0, small_block_cnt - 1);
     std::vector<double> data_range{0, 0, 1, 1};
     double m_pct = modify_percent_ / 100.0;
     std::vector<double> weight{1 - m_pct, 0, m_pct};

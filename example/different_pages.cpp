@@ -6,6 +6,7 @@
 #include "paging/strategy/Aging.h"
 #include "paging/strategy/Clock.h"
 #include "paging/strategy/Nru.h"
+#include "paging/strategy/WsClock.h"
 #include <vector>
 
 int main() {
@@ -14,8 +15,8 @@ int main() {
     paging::PagingSimulator paging_simulator(page_size, 128);
     paging_simulator.SetStrategyPeriod(100);
     paging_simulator.SetInputModifyPercent(0);
-    paging_simulator.SetInput(INPUT_FILE);
-    paging_simulator.GenerateInputIfNotExist();
+    paging_simulator.SetInputPrefix(paging::GetHotPageInputPrefix());
+    paging_simulator.GenerateHotPageAccessInputIfNotExist();
 
     paging_simulator.SetStrategy(std::make_unique<paging::strategy::Fifo>());
     paging_simulator.Run();
@@ -26,6 +27,8 @@ int main() {
     paging_simulator.SetStrategy(std::make_unique<paging::strategy::Clock>());
     paging_simulator.Run();
     paging_simulator.SetStrategy(std::make_unique<paging::strategy::Nru>());
+    paging_simulator.Run();
+    paging_simulator.SetStrategy(std::make_unique<paging::strategy::WsClock>());
     paging_simulator.Run();
     paging_simulator.ShowStats();
   }

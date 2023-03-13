@@ -22,6 +22,7 @@ class PhysicalMemory {
   void SetFrame(int frame_no, int page_no);
   void SetFrameSize(int size);
   size_t Size();
+  size_t Capacity();
  private:
   // frame store page_no to visit page_entry status (valid, reference...)
   // Note: in reality, frame contains actual data as well, but here we ignore it.

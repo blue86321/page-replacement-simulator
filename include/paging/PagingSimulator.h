@@ -49,7 +49,7 @@ class PagingSimulator {
   // rvalue reference, so that value is temporary, we can do std::move
   void SetStrategy(std::unique_ptr<strategy::IStrategy> &&strategy);
   // set input file location
-  void SetInput(std::string &&file_name);
+  void SetInputPrefix(std::string &&prefix);
   // stat is collected every `freq` line
   void SetOutputLineFrequency(int freq);
   // Run the simulator
@@ -62,8 +62,10 @@ class PagingSimulator {
   void SetStrategyPeriod(int period);
   void SetInputModifyPercent(int modify_percent);
   // generate input file
-  void GenerateInputIfNotExist();
-  void GenerateSmallPageFrequentAccessInputIfNotExist(int small_block_cnt, int page_per_block, int interval);
+  void GenerateUniformDistInputIfNotExist();
+  void GenerateHotPageAccessInputIfNotExist(int small_block_cnt = SMALL_BLOCK_CNT,
+                                            int page_per_block = PAGE_PER_BLOCK,
+                                            int interval = INTERVAL);
   void GenerateSequenceInputIfNotExist();
  private:
   std::string GetFileName();
@@ -79,7 +81,7 @@ class PagingSimulator {
   std::vector<Indicator> stats_;
   int cur_page_fault_{0};
   std::unique_ptr<strategy::IStrategy> strategy_;
-  std::string input_file_;
+  std::string input_prefix_;
   int output_line_frequency_;
   std::chrono::time_point<std::chrono::system_clock> start_time_;
   int modify_percent_ = 50;

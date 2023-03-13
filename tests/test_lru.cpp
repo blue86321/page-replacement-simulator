@@ -7,10 +7,10 @@
 
 int main() {
   paging::PagingSimulator paging_simulator(PAGE_SIZE, FRAME_SIZE);
-  paging_simulator.SetInput(TEST_INPUT_FILE);
+  paging_simulator.SetInputPrefix(TEST_INPUT_FILE);
   paging_simulator.SetOutputLineFrequency(TEST_OUTPUT_LINE_FREQUENCY);
   paging_simulator.SetStrategy(std::make_unique<paging::strategy::Lru>());
-  paging_simulator.GenerateInputIfNotExist();
+  paging_simulator.GenerateUniformDistInputIfNotExist();
   paging_simulator.Run();
   paging_simulator.ShowStats();
   auto stats = paging_simulator.GetStats();

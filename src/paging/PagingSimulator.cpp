@@ -13,22 +13,24 @@ void PagingSimulator::SetStrategy(std::unique_ptr<strategy::IStrategy> &&strateg
 }
 
 std::string PagingSimulator::GetFileName() {
-  return input_file_ + "_" + std::to_string(page_table_.Size()) + "p_" + std::to_string(modify_percent_) + "m.txt";
+  return input_prefix_ + std::to_string(page_table_.Size()) + "p_" + std::to_string(modify_percent_) + "m.txt";
 }
 
-void PagingSimulator::GenerateInputIfNotExist() {
-  util::InputGenerator::GenerateInputIfNotExist(GetFileName(), page_table_.Size(), modify_percent_, PAGE_REF_LINES);
+void PagingSimulator::GenerateUniformDistInputIfNotExist() {
+  util::InputGenerator::GenerateUniformDistInputIfNotExist(GetFileName(),
+                                                           page_table_.Size(),
+                                                           modify_percent_,
+                                                           PAGE_REF_LINES);
 }
 
-void PagingSimulator::GenerateSmallPageFrequentAccessInputIfNotExist(int small_block_cnt,
-                                                                     int page_per_block,
-                                                                     int interval) {
-  util::InputGenerator::GenerateSmallPageFrequentAccessInputIfNotExist(GetFileName(),
-                                                                       page_table_.Size(),
-                                                                       modify_percent_,
-                                                                       PAGE_REF_LINES, small_block_cnt,
-                                                                       page_per_block,
-                                                                       interval);
+void PagingSimulator::GenerateHotPageAccessInputIfNotExist(int small_block_cnt, int page_per_block, int interval) {
+  util::InputGenerator::GenerateHotPageAccessInputIfNotExist(GetFileName(),
+                                                             page_table_.Size(),
+                                                             modify_percent_,
+                                                             PAGE_REF_LINES,
+                                                             small_block_cnt,
+                                                             page_per_block,
+                                                             interval);
 }
 
 void PagingSimulator::GenerateSequenceInputIfNotExist() {
@@ -60,7 +62,7 @@ void PagingSimulator::Run() {
       if (line_counter % output_line_frequency_ == 0) {
         auto now = std::chrono::system_clock::now();
         stats_.emplace_back(page_table_.Size(),
-                            frame_.Size(),
+                            frame_.Capacity(),
                             strategy_->GetName(),
                             line_counter,
                             cur_page_fault_,
@@ -147,8 +149,8 @@ void PagingSimulator::SetPageTableSize(int size) {
   page_table_.SetPageTableSize(size);
 }
 
-void PagingSimulator::SetInput(std::string &&file_name) {
-  input_file_ = std::move(file_name);
+void PagingSimulator::SetInputPrefix(std::string &&prefix) {
+  input_prefix_ = std::move(prefix);
 }
 
 void PagingSimulator::SetOutputLineFrequency(int freq) {

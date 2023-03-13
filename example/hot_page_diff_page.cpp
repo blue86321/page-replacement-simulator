@@ -6,6 +6,7 @@
 #include "paging/strategy/Aging.h"
 #include "paging/strategy/Clock.h"
 #include "paging/strategy/Nru.h"
+#include "paging/strategy/WsClock.h"
 #include <vector>
 
 struct Params {
@@ -13,11 +14,6 @@ struct Params {
   int page_per_block;
   int interval;
 };
-
-static std::string GetInputFileName(int small_block_cnt, int page_per_block, int interval) {
-  return "input/page_reference_" + std::to_string(small_block_cnt) + "_block_" + std::to_string(page_per_block)
-      + "_page_" + std::to_string(interval) + "_ref";
-}
 
 int main() {
   paging::PagingSimulator paging_simulator(1024, 64);
@@ -39,8 +35,8 @@ int main() {
       << ", Interval: " << p.interval
       << "================"
       << "\n";
-    paging_simulator.SetInput(GetInputFileName(p.small_block_cnt, p.page_per_block, p.interval));
-    paging_simulator.GenerateSmallPageFrequentAccessInputIfNotExist(p.small_block_cnt, p.page_per_block, p.interval);
+    paging_simulator.SetInputPrefix(paging::GetHotPageInputPrefix(p.small_block_cnt, p.page_per_block, p.interval));
+    paging_simulator.GenerateHotPageAccessInputIfNotExist(p.small_block_cnt, p.page_per_block, p.interval);
 
     paging_simulator.SetStrategy(std::make_unique<paging::strategy::Fifo>());
     paging_simulator.Run();
@@ -51,6 +47,8 @@ int main() {
     paging_simulator.SetStrategy(std::make_unique<paging::strategy::Clock>());
     paging_simulator.Run();
     paging_simulator.SetStrategy(std::make_unique<paging::strategy::Nru>());
+    paging_simulator.Run();
+    paging_simulator.SetStrategy(std::make_unique<paging::strategy::WsClock>());
     paging_simulator.Run();
     paging_simulator.ShowStats();
     paging_simulator.ClearStats();

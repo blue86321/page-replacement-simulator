@@ -10,8 +10,8 @@ int main() {
     paging::PagingSimulator paging_simulator(1024, 128);
     paging_simulator.SetStrategyPeriod(100);
     paging_simulator.SetInputModifyPercent(m);
-    paging_simulator.SetInput(INPUT_FILE);
-    paging_simulator.GenerateInputIfNotExist();
+    paging_simulator.SetInputPrefix(paging::GetHotPageInputPrefix());
+    paging_simulator.GenerateHotPageAccessInputIfNotExist();
 
     // only NRU take modify into account
     paging_simulator.SetStrategy(std::make_unique<paging::strategy::Nru>());

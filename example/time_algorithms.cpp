@@ -6,6 +6,7 @@
 #include "paging/strategy/Aging.h"
 #include "paging/strategy/Clock.h"
 #include "paging/strategy/Nru.h"
+#include "paging/strategy/WsClock.h"
 #include <unordered_map>
 #include <string>
 
@@ -21,8 +22,8 @@ void TimeAlgo(std::unique_ptr<paging::strategy::IStrategy> strategy_ptr) {
   paging::PagingSimulator paging_simulator(PAGE, FRAME);
   paging_simulator.SetStrategyPeriod(100);
   paging_simulator.SetInputModifyPercent(0);
-  paging_simulator.SetInput(INPUT_FILE);
-  paging_simulator.GenerateInputIfNotExist();
+  paging_simulator.SetInputPrefix(paging::GetHotPageInputPrefix());
+  paging_simulator.GenerateHotPageAccessInputIfNotExist();
   paging_simulator.SetStrategy(std::move(strategy_ptr));
   for (int i = 0; i < LOOP; i++) {
     paging_simulator.Run();
@@ -47,5 +48,6 @@ int main() {
   TimeAlgo(std::move(std::make_unique<paging::strategy::Aging>()));
   TimeAlgo(std::move(std::make_unique<paging::strategy::Clock>()));
   TimeAlgo(std::move(std::make_unique<paging::strategy::Nru>()));
+  TimeAlgo(std::move(std::make_unique<paging::strategy::WsClock>()));
   return 0;
 }
