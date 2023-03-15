@@ -7,6 +7,7 @@
 #include "paging/strategy/Clock.h"
 #include "paging/strategy/Nru.h"
 #include "paging/strategy/WsClock.h"
+#include "paging/strategy/AgingHeap.h"
 #include <unordered_map>
 #include <string>
 
@@ -46,6 +47,7 @@ int main() {
   TimeAlgo(std::move(std::make_unique<paging::strategy::Fifo>()));
   TimeAlgo(std::move(std::make_unique<paging::strategy::Lru>()));
   TimeAlgo(std::move(std::make_unique<paging::strategy::Aging>()));
+//  TimeAlgo(std::move(std::make_unique<paging::strategy::AgingHeap>()));
   TimeAlgo(std::move(std::make_unique<paging::strategy::Clock>()));
   TimeAlgo(std::move(std::make_unique<paging::strategy::Nru>()));
   TimeAlgo(std::move(std::make_unique<paging::strategy::WsClock>()));

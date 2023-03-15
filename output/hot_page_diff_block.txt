@@ -1,47 +1,47 @@
 ================Blocks: 1, Page per block: 10, Interval: 20================
-Frame: 64, Page: 1024, Strategy: Aging, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 31544, Time: 0.076988
-Frame: 64, Page: 1024, Strategy: Clock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 34167, Time: 0.014732
-Frame: 64, Page: 1024, Strategy: FIFO, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 36889, Time: 0.016584
-Frame: 64, Page: 1024, Strategy: LRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 31534, Time: 0.032113
-Frame: 64, Page: 1024, Strategy: NRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 38194, Time: 0.034646
-Frame: 64, Page: 1024, Strategy: WsClock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 32779, Time: 0.148825
+Frame: 64, Page: 1024, Strategy: Aging, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 31544, Time: 0.07838
+Frame: 64, Page: 1024, Strategy: Clock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 34167, Time: 0.014551
+Frame: 64, Page: 1024, Strategy: FIFO, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 36889, Time: 0.016728
+Frame: 64, Page: 1024, Strategy: LRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 31534, Time: 0.033693
+Frame: 64, Page: 1024, Strategy: NRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 38194, Time: 0.035086
+Frame: 64, Page: 1024, Strategy: WsClock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 31601, Time: 0.034953
 
 
 
 ================Blocks: 5, Page per block: 10, Interval: 20================
-Frame: 64, Page: 1024, Strategy: Aging, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 41940, Time: 0.096273
-Frame: 64, Page: 1024, Strategy: Clock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 43488, Time: 0.015308
-Frame: 64, Page: 1024, Strategy: FIFO, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 43753, Time: 0.018052
-Frame: 64, Page: 1024, Strategy: LRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 42515, Time: 0.036249
-Frame: 64, Page: 1024, Strategy: NRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45775, Time: 0.042264
-Frame: 64, Page: 1024, Strategy: WsClock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 43445, Time: 0.234339
+Frame: 64, Page: 1024, Strategy: Aging, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 41940, Time: 0.095803
+Frame: 64, Page: 1024, Strategy: Clock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 43488, Time: 0.015075
+Frame: 64, Page: 1024, Strategy: FIFO, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 43753, Time: 0.017555
+Frame: 64, Page: 1024, Strategy: LRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 42515, Time: 0.036748
+Frame: 64, Page: 1024, Strategy: NRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45775, Time: 0.042432
+Frame: 64, Page: 1024, Strategy: WsClock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 43095, Time: 0.042858
 
 
 
 ================Blocks: 10, Page per block: 10, Interval: 20================
-Frame: 64, Page: 1024, Strategy: Aging, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45434, Time: 0.100469
-Frame: 64, Page: 1024, Strategy: Clock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45445, Time: 0.015442
-Frame: 64, Page: 1024, Strategy: FIFO, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45489, Time: 0.018059
-Frame: 64, Page: 1024, Strategy: LRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45262, Time: 0.037021
-Frame: 64, Page: 1024, Strategy: NRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46845, Time: 0.043243
-Frame: 64, Page: 1024, Strategy: WsClock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45545, Time: 0.244932
+Frame: 64, Page: 1024, Strategy: Aging, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45434, Time: 0.104229
+Frame: 64, Page: 1024, Strategy: Clock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45445, Time: 0.015819
+Frame: 64, Page: 1024, Strategy: FIFO, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45489, Time: 0.01783
+Frame: 64, Page: 1024, Strategy: LRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45262, Time: 0.037929
+Frame: 64, Page: 1024, Strategy: NRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46845, Time: 0.043788
+Frame: 64, Page: 1024, Strategy: WsClock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 45397, Time: 0.04173
 
 
 
 ================Blocks: 20, Page per block: 10, Interval: 20================
-Frame: 64, Page: 1024, Strategy: Aging, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46712, Time: 0.102083
-Frame: 64, Page: 1024, Strategy: Clock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46706, Time: 0.015588
-Frame: 64, Page: 1024, Strategy: FIFO, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46711, Time: 0.018056
-Frame: 64, Page: 1024, Strategy: LRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46604, Time: 0.037183
-Frame: 64, Page: 1024, Strategy: NRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 47314, Time: 0.044824
-Frame: 64, Page: 1024, Strategy: WsClock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46679, Time: 0.254487
+Frame: 64, Page: 1024, Strategy: Aging, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46712, Time: 0.102962
+Frame: 64, Page: 1024, Strategy: Clock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46706, Time: 0.015518
+Frame: 64, Page: 1024, Strategy: FIFO, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46711, Time: 0.018031
+Frame: 64, Page: 1024, Strategy: LRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46604, Time: 0.037924
+Frame: 64, Page: 1024, Strategy: NRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 47314, Time: 0.044221
+Frame: 64, Page: 1024, Strategy: WsClock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46653, Time: 0.042658
 
 
 
 ================Blocks: 50, Page per block: 10, Interval: 20================
-Frame: 64, Page: 1024, Strategy: Aging, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46657, Time: 0.102832
-Frame: 64, Page: 1024, Strategy: Clock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46543, Time: 0.015781
-Frame: 64, Page: 1024, Strategy: FIFO, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46556, Time: 0.018515
-Frame: 64, Page: 1024, Strategy: LRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46503, Time: 0.037296
-Frame: 64, Page: 1024, Strategy: NRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46403, Time: 0.043434
-Frame: 64, Page: 1024, Strategy: WsClock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46580, Time: 0.24943
+Frame: 64, Page: 1024, Strategy: Aging, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46657, Time: 0.102331
+Frame: 64, Page: 1024, Strategy: Clock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46543, Time: 0.01554
+Frame: 64, Page: 1024, Strategy: FIFO, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46556, Time: 0.018144
+Frame: 64, Page: 1024, Strategy: LRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46503, Time: 0.037901
+Frame: 64, Page: 1024, Strategy: NRU, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46403, Time: 0.043565
+Frame: 64, Page: 1024, Strategy: WsClock, Modify Pct: 0%, Period: 100, Line: 50000, Page fault: 46513, Time: 0.041879

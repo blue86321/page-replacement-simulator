@@ -1,6 +1,6 @@
-Page: 1024, Frame: 128, Strategy: FIFO, Loop: 100, Time: 1.70669, each page fault: 42122
-Page: 1024, Frame: 128, Strategy: LRU, Loop: 100, Time: 3.68509, each page fault: 40814
-Page: 1024, Frame: 128, Strategy: Aging, Loop: 100, Time: 14.5422, each page fault: 40696
-Page: 1024, Frame: 128, Strategy: Clock, Loop: 100, Time: 1.46807, each page fault: 41512
-Page: 1024, Frame: 128, Strategy: NRU, Loop: 100, Time: 4.06235, each page fault: 42165
-Page: 1024, Frame: 128, Strategy: WsClock, Loop: 100, Time: 3.8387, each page fault: 41406
+Page: 1024, Frame: 128, Strategy: FIFO, Loop: 100, Time: 1.72525, each page fault: 42122
+Page: 1024, Frame: 128, Strategy: LRU, Loop: 100, Time: 3.5564, each page fault: 40814
+Page: 1024, Frame: 128, Strategy: Aging, Loop: 100, Time: 14.4803, each page fault: 40696
+Page: 1024, Frame: 128, Strategy: Clock, Loop: 100, Time: 1.47902, each page fault: 41512
+Page: 1024, Frame: 128, Strategy: NRU, Loop: 100, Time: 4.05705, each page fault: 42165
+Page: 1024, Frame: 128, Strategy: WsClock, Loop: 100, Time: 3.80262, each page fault: 41406
