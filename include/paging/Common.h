@@ -9,7 +9,7 @@
 namespace paging {
 
 #define PAGE_REF_LINES 50000
-#define OUTPUT_LINE_FREQUENCY 5000
+#define OUTPUT_LINE_FREQUENCY 50000
 #define INPUT_PREFIX "input/page_ref_"
 
 #define SMALL_BLOCK_CNT 3
