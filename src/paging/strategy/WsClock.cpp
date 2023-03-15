@@ -14,9 +14,8 @@ int WsClock::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table
   while (checked_page_cnt++ < frame.Size()) {
     int page_no = frame.GetPage(head_idx_);
     if (page_table.IsValid(page_no)) {
-      // if referenced, reset reference and update last visit time
+      // if referenced, reset reference
       if (page_table.IsReferenced(page_no) && !page_table.IsModified(page_no)) {
-        last_visit_time_[page_no] = cur_time_;
         page_table.SetReference(page_no, false);
       } else {
         // not referenced, check `last visit time` and `working set window`
