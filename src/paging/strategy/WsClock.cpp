@@ -33,11 +33,12 @@ int WsClock::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table
     head_idx_ = (head_idx_ + 1) % frame.Size();
   }
   // if every page is referenced, output the first one. otherwise, output the oldest page
-  return oldest_page_no_ws == -1 ? head_idx_ : oldest_page_no_ws;
+  return oldest_page_no_ws == -1 ? frame.GetPage(head_idx_) : oldest_page_no_ws;
 }
 
 void WsClock::AfterReplace_(PhysicalMemory &frame, PageTable &page_table, int old_page_no, int new_page_no) {
   cur_time_++;
+  last_visit_time_.erase(old_page_no);
   head_idx_ = (head_idx_ + 1) % frame.Size();
 }
 
