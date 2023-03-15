@@ -14,11 +14,13 @@ int WsClock::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table
   while (checked_page_cnt++ < frame.Size()) {
     int page_no = frame.GetPage(head_idx_);
     if (page_table.IsValid(page_no)) {
-      // if referenced, update last visit time
-      if (page_table.IsReferenced(page_no)) {
+      // if referenced, reset reference and update last visit time
+      if (page_table.IsReferenced(page_no) && !page_table.IsModified(page_no)) {
         last_visit_time_[page_no] = cur_time_;
+        page_table.SetReference(page_no, false);
       } else {
         // not referenced, check `last visit time` and `working set window`
+        // note: we ignore modified data since it will schedule to write, which is not easy to implement here
         uint32_t age = cur_time_ - last_visit_time_[page_no];
         if (age > working_set_window_) {
           return page_no;
@@ -37,8 +39,8 @@ int WsClock::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table
 }
 
 void WsClock::AfterReplace_(PhysicalMemory &frame, PageTable &page_table, int old_page_no, int new_page_no) {
-  cur_time_++;
   last_visit_time_.erase(old_page_no);
+  last_visit_time_[new_page_no] = ++cur_time_;
   head_idx_ = (head_idx_ + 1) % frame.Size();
 }
 
@@ -56,13 +58,14 @@ void WsClock::PeriodOperation_(PhysicalMemory &frame, PageTable &page_table) {
 void WsClock::Reset_() {
   cur_time_ = 0;
   head_idx_ = 0;
+  std::unordered_map<int, uint32_t>().swap(last_visit_time_);
 }
 
 void WsClock::AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_no) {
-  cur_time_++;
+  last_visit_time_[page_no] = ++cur_time_;
 }
 
 void WsClock::AfterReference_(PhysicalMemory &frame, PageTable &page_table, int page_no) {
-  cur_time_++;
+  last_visit_time_[page_no] = ++cur_time_;
 }
 } // strategy
