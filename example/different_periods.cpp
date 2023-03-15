@@ -20,6 +20,8 @@ int main() {
     paging_simulator.Run();
     paging_simulator.SetStrategy(std::make_unique<paging::strategy::Nru>());
     paging_simulator.Run();
+    paging_simulator.SetStrategy(std::make_unique<paging::strategy::WsClock>());
+    paging_simulator.Run();
     paging_simulator.ShowStats();
   }
   return 0;
