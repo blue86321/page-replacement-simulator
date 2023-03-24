@@ -3,11 +3,16 @@
 //
 
 #include "paging/strategy/Lru.h"
+#include <iomanip>
 
 namespace paging::strategy {
 // Lru
 int Lru::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) {
   // tail of DLList (least recently used)
+  if (verbose_) {
+    std::cout << "Recency order: ";
+    dl_list_.PrintListAndVictim();
+  }
   return dl_list_.GetTail()->val;
 }
 
@@ -82,5 +87,14 @@ Node *DLList::GetTail() {
 
 size_t DLList::Size() {
   return size_;
+}
+void DLList::PrintListAndVictim() {
+  for (Node* cur = head_->next; cur != tail_; cur = cur->next) {
+    if (cur == tail_->prev) {
+      std::cout << cur->val << "(victim) ";
+    } else {
+      std::cout << cur->val << " ";
+    }
+  }
 }
 } // paging

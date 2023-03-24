@@ -21,6 +21,7 @@ class PhysicalMemory {
   int UseOneFrame(int page_no);
   void SetFrame(int frame_no, int page_no);
   void SetFrameSize(int size);
+  std::vector<int> GetFrames();
   size_t Size();
   size_t Capacity();
  private:

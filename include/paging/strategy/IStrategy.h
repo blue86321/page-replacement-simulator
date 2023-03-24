@@ -34,6 +34,8 @@ class IStrategy {
   void SetPeriod(int period);
   int GetPeriod();
   void Reset();
+  // show each memory access procedure. e.g., GetReplacePage
+  void SetVerbose(bool verbose);
  protected:
   virtual void AfterNewPage_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_no) = 0;
   virtual void AfterReference_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_no) = 0;
@@ -43,7 +45,12 @@ class IStrategy {
                              int new_page_no) = 0;
   virtual void PeriodOperation_(PhysicalMemory &frame, PageTable &page_table) = 0;
   virtual void Reset_() = 0;
+  // show each method detail procedure
+  int verbose_ = false;
  private:
+  void VerboseAfterNewPage_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_no);
+  void VerboseAfterReference_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int page_no);
+  void VerboseAfterReplace_(paging::PhysicalMemory &frame, paging::PageTable &page_table, int old_page_no, int new_page_no);
   void CheckPeriod(PhysicalMemory &frame, PageTable &page_table);
   static inline int period_ = 10;
   int cur_period_ = 0;

@@ -3,6 +3,7 @@
 //
 
 #include "paging/PhysicalMemory.h"
+#include <iostream>
 
 namespace paging {
 bool PhysicalMemory::IsFull() {
@@ -40,5 +41,8 @@ size_t PhysicalMemory::Capacity() {
 }
 void PhysicalMemory::SetFrame(int frame_no, int page_no) {
   frames_[frame_no] = page_no;
+}
+std::vector<int> PhysicalMemory::GetFrames() {
+  return std::vector<int>(frames_);
 }
 } // paging

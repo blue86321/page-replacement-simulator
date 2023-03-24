@@ -29,6 +29,7 @@ class CustomPq : public std::priority_queue<PageAge, std::vector<PageAge>, Compa
  public:
   void UpdateAge(int key);
   void Aging(PageTable& page_table);
+  void VerboseGetReplacePage_(PhysicalMemory &frame, PageTable &page_table, int victim);
 };
 
 class AgingHeap : public IStrategy {

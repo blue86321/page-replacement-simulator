@@ -16,6 +16,7 @@
 #include "PageTable.h"
 #include "Common.h"
 #include "PhysicalMemory.h"
+#include "paging/strategy/Fifo.h"
 
 namespace paging {
 
@@ -52,6 +53,8 @@ class PagingSimulator {
   void SetInputPrefix(std::string &&prefix);
   // stat is collected every `freq` line
   void SetOutputLineFrequency(int freq);
+  // show each memory access procedure. e.g., GetReplacePage
+  void SetStrategyVerbose(bool verbose);
   // Run the simulator
   void Run();
   std::vector<Indicator> GetStats();
@@ -67,6 +70,7 @@ class PagingSimulator {
                                             int page_per_block = PAGE_PER_BLOCK,
                                             int interval = INTERVAL);
   void GenerateSequenceInputIfNotExist();
+  int GetPageFault();
  private:
   std::string GetFileName();
   void Reset();
@@ -80,11 +84,12 @@ class PagingSimulator {
   // stats_: strategy_name -> indicators
   std::vector<Indicator> stats_;
   int cur_page_fault_{0};
-  std::unique_ptr<strategy::IStrategy> strategy_;
+  std::unique_ptr<strategy::IStrategy> strategy_ = std::make_unique<strategy::Fifo>();
   std::string input_prefix_;
   int output_line_frequency_;
   std::chrono::time_point<std::chrono::system_clock> start_time_;
   int modify_percent_ = 50;
+  int strategy_verbose_ = false;
 };
 
 }

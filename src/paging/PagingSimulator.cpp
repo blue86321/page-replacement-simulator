@@ -10,6 +10,7 @@ namespace paging {
 void PagingSimulator::SetStrategy(std::unique_ptr<strategy::IStrategy> &&strategy) {
   // because `strategy` is a rvalue, we can "steal" memory from it
   strategy_ = std::move(strategy);
+  strategy_->SetVerbose(strategy_verbose_);
 }
 
 std::string PagingSimulator::GetFileName() {
@@ -170,6 +171,13 @@ void PagingSimulator::SetInputModifyPercent(int modify_percent) {
 }
 void PagingSimulator::ClearStats() {
   std::vector<Indicator>().swap(stats_);
+}
+void PagingSimulator::SetStrategyVerbose(bool verbose) {
+  strategy_verbose_ = verbose;
+  strategy_->SetVerbose(strategy_verbose_);
+}
+int PagingSimulator::GetPageFault() {
+  return cur_page_fault_;
 }
 }
 

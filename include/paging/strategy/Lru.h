@@ -32,6 +32,7 @@ class DLList {
   void MoveToHead(Node *node);
   Node *GetTail();
   size_t Size();
+  void PrintListAndVictim();
 
  private:
   Node *head_;

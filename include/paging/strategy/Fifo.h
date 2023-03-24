@@ -26,8 +26,8 @@ class Fifo : public IStrategy {
   std::string GetName() override;
  private:
   std::string name_ = "FIFO";
-  std::queue<int> queue;
-
+  std::queue<int> queue_;
+  std::vector<int> queue_verbose_;
 };
 
 } // paging

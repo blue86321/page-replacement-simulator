@@ -3,6 +3,7 @@
 //
 
 #include "paging/strategy/Aging.h"
+#include <iomanip>
 
 namespace paging::strategy {
 int Aging::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) {
@@ -10,6 +11,16 @@ int Aging::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) 
   auto min_element = std::min_element(age_map.begin(),
                                       age_map.end(),
                                       [](const auto &a, const auto &b) { return a.second < b.second; });
+  if (verbose_) {
+    std::cout << std::setw(7) << "Page" << std::setw(16) << "Age" << "\n";
+    for (auto &[page_no, age] : age_map) {
+      std::cout << std::setw(7) << page_no << std::setw(16) << age;
+      if (page_no == min_element->first) {
+        std::cout << " --- victim";
+      }
+      std::cout << "\n";
+    }
+  }
   return (*min_element).first;
 }
 void Aging::AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_no) {

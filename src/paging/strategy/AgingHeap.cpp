@@ -3,12 +3,16 @@
 //
 
 #include "paging/strategy/AgingHeap.h"
+#include <iomanip>
 
 namespace paging::strategy {
 int AgingHeap::GetReplacePage(PhysicalMemory &frame, paging::PageTable &page_table) {
   // min age
   auto &page_age = priority_queue_.top();
   int page_no = page_age.page_no;
+  if (verbose_) {
+    priority_queue_.VerboseGetReplacePage_(frame, page_table, page_no);
+  }
   return page_no;
 }
 void AgingHeap::AfterNewPage_(PhysicalMemory &frame, PageTable &page_table, int page_no) {
@@ -50,6 +54,16 @@ void CustomPq::UpdateAge(int key) {
     }
   }
   std::make_heap(this->c.begin(), this->c.end(), Comparator());
+}
+void CustomPq::VerboseGetReplacePage_(PhysicalMemory &frame, PageTable &page_table, int victim) {
+  std::cout << std::setw(7) << "Page" << std::setw(40) << "Age" << "\n";
+  for (auto &[page_no, age] : this->c) {
+    std::cout << std::setw(7) << page_no << std::setw(40) << age;
+    if (page_no == victim) {
+      std::cout << " --- victim";
+    }
+    std::cout << "\n";
+  }
 }
 void AgingHeap::Reset_() {
   age_map_.clear();
