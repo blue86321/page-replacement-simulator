@@ -1,0 +1,421 @@
+========================= FIFO =========================
+Frame is not full (0/4)
+Frame is not full (1/4)
+Frame is not full (2/4)
+Frame is not full (3/4)
+Page is in the Frame, page: 2, frame: 1 2 3 4
+Page is in the Frame, page: 1, frame: 1 2 3 4
+Queue: 1(victim) 2 3 4 , replace page 1 with 5
+Queue: 2(victim) 3 4 5 , replace page 2 with 6
+Queue: 3(victim) 4 5 6 , replace page 3 with 2
+Queue: 4(victim) 5 6 2 , replace page 4 with 1
+Page is in the Frame, page: 2, frame: 5 6 2 1
+Queue: 5(victim) 6 2 1 , replace page 5 with 3
+Queue: 6(victim) 2 1 3 , replace page 6 with 7
+Queue: 2(victim) 1 3 7 , replace page 2 with 6
+Page is in the Frame, page: 3, frame: 3 7 6 1
+Queue: 1(victim) 3 7 6 , replace page 1 with 2
+Queue: 3(victim) 7 6 2 , replace page 3 with 1
+Page is in the Frame, page: 2, frame: 1 7 6 2
+Queue: 7(victim) 6 2 1 , replace page 7 with 3
+Page is in the Frame, page: 6, frame: 1 3 6 2
+----------- Page fault: 14 -----------
+
+
+
+
+
+========================= LRU =========================
+Frame is not full (0/4)
+Frame is not full (1/4)
+Frame is not full (2/4)
+Frame is not full (3/4)
+Page is in the Frame, page: 2, frame: 1 2 3 4
+Page is in the Frame, page: 1, frame: 1 2 3 4
+Recency order: 1 2 4 3(victim) , replace page 3 with 5
+Recency order: 5 1 2 4(victim) , replace page 4 with 6
+Page is in the Frame, page: 2, frame: 1 2 5 6
+Page is in the Frame, page: 1, frame: 1 2 5 6
+Page is in the Frame, page: 2, frame: 1 2 5 6
+Recency order: 2 1 6 5(victim) , replace page 5 with 3
+Recency order: 3 2 1 6(victim) , replace page 6 with 7
+Recency order: 7 3 2 1(victim) , replace page 1 with 6
+Page is in the Frame, page: 3, frame: 6 2 3 7
+Page is in the Frame, page: 2, frame: 6 2 3 7
+Recency order: 2 3 6 7(victim) , replace page 7 with 1
+Page is in the Frame, page: 2, frame: 6 2 3 1
+Page is in the Frame, page: 3, frame: 6 2 3 1
+Page is in the Frame, page: 6, frame: 6 2 3 1
+----------- Page fault: 10 -----------
+
+
+
+
+
+========================= Clock =========================
+Frame is not full (0/4)
+Frame is not full (1/4)
+Frame is not full (2/4)
+Frame is not full (3/4)
+Page is in the Frame, page: 2, frame: 1 2 3 4
+Page is in the Frame, page: 1, frame: 1 2 3 4
+Before:
+   Page   Ref
+      1      1 --- head
+      2      1
+      3      1
+      4      1
+After:
+   Page   Ref
+      1      0 --- victim
+      2      0
+      3      0
+      4      0
+, replace page 1 with 5
+Before:
+   Page   Ref
+      5      1
+      2      0 --- head
+      3      0
+      4      0
+After:
+   Page   Ref
+      5      1
+      2      0 --- victim
+      3      0
+      4      0
+, replace page 2 with 6
+Before:
+   Page   Ref
+      5      1
+      6      1
+      3      0 --- head
+      4      0
+After:
+   Page   Ref
+      5      1
+      6      1
+      3      0 --- victim
+      4      0
+, replace page 3 with 2
+Before:
+   Page   Ref
+      5      1
+      6      1
+      2      1
+      4      0 --- head
+After:
+   Page   Ref
+      5      1
+      6      1
+      2      1
+      4      0 --- victim
+, replace page 4 with 1
+Page is in the Frame, page: 2, frame: 5 6 2 1
+Before:
+   Page   Ref
+      5      1 --- head
+      6      1
+      2      1
+      1      1
+After:
+   Page   Ref
+      5      0 --- victim
+      6      0
+      2      0
+      1      0
+, replace page 5 with 3
+Before:
+   Page   Ref
+      3      1
+      6      0 --- head
+      2      0
+      1      0
+After:
+   Page   Ref
+      3      1
+      6      0 --- victim
+      2      0
+      1      0
+, replace page 6 with 7
+Before:
+   Page   Ref
+      3      1
+      7      1
+      2      0 --- head
+      1      0
+After:
+   Page   Ref
+      3      1
+      7      1
+      2      0 --- victim
+      1      0
+, replace page 2 with 6
+Page is in the Frame, page: 3, frame: 3 7 6 1
+Before:
+   Page   Ref
+      3      1
+      7      1
+      6      1
+      1      0 --- head
+After:
+   Page   Ref
+      3      1
+      7      1
+      6      1
+      1      0 --- victim
+, replace page 1 with 2
+Before:
+   Page   Ref
+      3      1 --- head
+      7      1
+      6      1
+      2      1
+After:
+   Page   Ref
+      3      0 --- victim
+      7      0
+      6      0
+      2      0
+, replace page 3 with 1
+Page is in the Frame, page: 2, frame: 1 7 6 2
+Before:
+   Page   Ref
+      1      1
+      7      0 --- head
+      6      0
+      2      1
+After:
+   Page   Ref
+      1      1
+      7      0 --- victim
+      6      0
+      2      1
+, replace page 7 with 3
+Page is in the Frame, page: 6, frame: 1 3 6 2
+----------- Page fault: 14 -----------
+
+
+
+
+
+========================= Aging =========================
+Frame is not full (0/4)
+Frame is not full (1/4)
+Frame is not full (2/4)
+Frame is not full (3/4)
+Page is in the Frame, page: 2, frame: 1 2 3 4
+Page is in the Frame, page: 1, frame: 1 2 3 4
+   Page             Age
+      4       536870912
+      3       268435456 --- victim
+      2      1207959552
+      1      2214592512
+, replace page 3 with 5
+   Page             Age
+      5      2147483648
+      4       268435456 --- victim
+      2       603979776
+      1      1107296256
+, replace page 4 with 6
+Page is in the Frame, page: 2, frame: 1 2 5 6
+Page is in the Frame, page: 1, frame: 1 2 5 6
+Page is in the Frame, page: 2, frame: 1 2 5 6
+   Page             Age
+      5       134217728 --- victim
+      2      2722103296
+      6       268435456
+      1      1142947840
+, replace page 5 with 3
+   Page             Age
+      3      2147483648
+      2      1361051648
+      6       134217728 --- victim
+      1       571473920
+, replace page 6 with 7
+   Page             Age
+      3      1073741824
+      7      2147483648
+      2       680525824
+      1       285736960 --- victim
+, replace page 1 with 6
+Page is in the Frame, page: 3, frame: 6 2 3 7
+Page is in the Frame, page: 2, frame: 6 2 3 7
+   Page             Age
+      6       536870912
+      3      1207959552
+      7       268435456 --- victim
+      2      2232549376
+, replace page 7 with 1
+Page is in the Frame, page: 2, frame: 6 2 3 1
+Page is in the Frame, page: 3, frame: 6 2 3 1
+Page is in the Frame, page: 6, frame: 6 2 3 1
+----------- Page fault: 10 -----------
+
+
+
+
+
+========================= NRU =========================
+Frame is not full (0/4)
+Frame is not full (1/4)
+Frame is not full (2/4)
+Frame is not full (3/4)
+Page is in the Frame, page: 2, frame: 1 2 3 4
+Page is in the Frame, page: 1, frame: 1 2 3 4
+      Page       Ref    Modify
+         1         1         0 --- victim (get smallest page when tie)
+         2         1         1
+         3         1         1
+         4         1         0
+, replace page 1 with 5
+      Page       Ref    Modify
+         5         1         0
+         2         1         1
+         3         1         1
+         4         1         0 --- victim (get smallest page when tie)
+, replace page 4 with 6
+Page is in the Frame, page: 2, frame: 5 2 3 6
+      Page       Ref    Modify
+         5         1         0 --- victim (get smallest page when tie)
+         2         1         1
+         3         1         1
+         6         1         1
+, replace page 5 with 1
+Page is in the Frame, page: 2, frame: 1 2 3 6
+Page is in the Frame, page: 3, frame: 1 2 3 6
+      Page       Ref    Modify
+         1         1         1 --- victim (get smallest page when tie)
+         2         1         1
+         3         1         1
+         6         1         1
+, replace page 1 with 7
+Page is in the Frame, page: 6, frame: 7 2 3 6
+Page is in the Frame, page: 3, frame: 7 2 3 6
+Page is in the Frame, page: 2, frame: 7 2 3 6
+      Page       Ref    Modify
+         7         1         1
+         2         1         1 --- victim (get smallest page when tie)
+         3         1         1
+         6         1         1
+, replace page 2 with 1
+      Page       Ref    Modify
+         7         1         1
+         1         1         1 --- victim (get smallest page when tie)
+         3         1         1
+         6         1         1
+, replace page 1 with 2
+Page is in the Frame, page: 3, frame: 7 2 3 6
+Page is in the Frame, page: 6, frame: 7 2 3 6
+----------- Page fault: 10 -----------
+
+
+
+
+
+========================= WSClock =========================
+Frame is not full (0/4)
+Frame is not full (1/4)
+Frame is not full (2/4)
+Frame is not full (3/4)
+Page is in the Frame, page: 2, frame: 1 2 3 4
+Page is in the Frame, page: 1, frame: 1 2 3 4
+Before:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      1      1      0             30              1 --- head
+      2      1      1             30              1
+      3      1      3             30              1
+      4      1      2             30              1
+After:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      1      0      0             30              1 --- victim (oldest one if all pages are in working set)
+      2      0      1             30              1
+      3      0      3             30              1
+      4      0      2             30              1
+, replace page 1 with 5
+Before:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      5      1      0             30              1
+      2      0      2             30              1 --- head
+      3      0      4             30              1
+      4      0      3             30              1
+After:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      5      0      0             30              1
+      2      0      2             30              1
+      3      0      4             30              1 --- victim (oldest one if all pages are in working set)
+      4      0      3             30              1
+, replace page 3 with 6
+Page is in the Frame, page: 2, frame: 5 2 6 4
+Before:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      5      0      2             30              1
+      2      1      0             30              1
+      6      1      1             30              1 --- head
+      4      0      5             30              1
+After:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      5      0      2             30              1
+      2      0      0             30              1
+      6      0      1             30              1
+      4      0      5             30              1 --- victim (oldest one if all pages are in working set)
+, replace page 4 with 1
+Page is in the Frame, page: 2, frame: 5 2 6 1
+Before:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      5      0      4             30              1
+      2      1      0             30              1
+      6      0      3             30              1
+      1      1      1             30              1 --- head
+After:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      5      0      4             30              1 --- victim (oldest one if all pages are in working set)
+      2      0      0             30              1
+      6      0      3             30              1
+      1      0      1             30              1
+, replace page 5 with 3
+Before:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      3      1      0             30              1 --- head
+      2      0      1             30              1
+      6      0      4             30              1
+      1      0      2             30              1
+After:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      3      0      0             30              1
+      2      0      1             30              1
+      6      0      4             30              1 --- victim (oldest one if all pages are in working set)
+      1      0      2             30              1
+, replace page 6 with 7
+Before:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      3      0      1             30              1
+      2      0      2             30              1 --- head
+      7      1      0             30              1
+      1      0      3             30              1
+After:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      3      0      1             30              1
+      2      0      2             30              1
+      7      0      0             30              1
+      1      0      3             30              1 --- victim (oldest one if all pages are in working set)
+, replace page 1 with 6
+Page is in the Frame, page: 3, frame: 3 2 7 6
+Page is in the Frame, page: 2, frame: 3 2 7 6
+Before:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      3      1      1             30              1
+      2      1      0             30              1
+      7      0      3             30              1 --- head
+      6      1      2             30              1
+After:
+   Page    Ref    Age     WorkingSet   InWorkingSet
+      3      0      1             30              1
+      2      0      0             30              1
+      7      0      3             30              1 --- victim (oldest one if all pages are in working set)
+      6      0      2             30              1
+, replace page 7 with 1
+Page is in the Frame, page: 2, frame: 3 2 1 6
+Page is in the Frame, page: 3, frame: 3 2 1 6
+Page is in the Frame, page: 6, frame: 3 2 1 6
+----------- Page fault: 11 -----------
