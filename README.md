@@ -16,15 +16,20 @@ ctest
 ```
 
 ## Run
-- in `build` directory
+
 
 ### Demo
+- in `build` directory
 - illustrate each page replacement process
+
 ```shell
+cd example
 ./demo
 ```
 
-### Different Settings
+### Different Settings 
+- in `build` directory
+
 ```shell
 cd example
 ./different_frames
